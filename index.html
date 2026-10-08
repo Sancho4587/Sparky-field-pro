@@ -1,228 +1,110 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#073b78">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icons/icon-180.png">
-<title>EMT Field Pro v6</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071a2e">
+<title>EMT Field Pro</title>
 <style>
-:root {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  color-scheme: dark;
-  --bg: #071a2e;
-  --panel: #0c2947;
-  --blue: #1680ed;
-  --yellow: #ffd43b;
-  --green: #55e06f;
-  --red: #ff6060;
-  --text: #eef7ff;
-  --muted: #a9bfd3;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  padding: calc(env(safe-area-inset-top) + 12px) 12px
-           calc(env(safe-area-inset-bottom) + 25px);
-  background: var(--bg);
-  color: var(--text);
-}
-main { max-width: 760px; margin: auto; }
-header { text-align: center; margin-bottom: 15px; }
-h1 { font-size: 25px; margin: 5px 0; }
-h2 { font-size: 18px; margin: 0 0 13px; }
-.sub { color: var(--muted); font-size: 13px; }
-.version { color: var(--yellow); font-weight: 700; }
-.panel {
-  background: var(--panel);
-  padding: 16px;
-  border-radius: 15px;
-  margin-bottom: 13px;
-  border: 1px solid #205075;
-}
-label {
-  display: block;
-  margin: 12px 0 6px;
-  font-size: 14px;
-  font-weight: 600;
-}
-input, select {
-  width: 100%;
-  padding: 13px;
-  font-size: 18px;
-  border-radius: 9px;
-  border: 1px solid #416887;
-  background: #06182a;
-  color: white;
-  min-height: 49px;
-}
-input:focus, select:focus {
-  outline: 2px solid var(--blue);
-}
-button {
-  cursor: pointer;
-  border: none;
-  border-radius: 9px;
-  font-weight: 700;
-  min-height: 45px;
-  padding: 10px;
-  touch-action: manipulation;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-.grid2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 9px;
-}
-.blue { background: #176bc4; color: white; }
-.yellow { background: var(--yellow); color: #071a2e; }
-.dark { background: #194363; color: white; }
-.green { color: var(--green); }
-.red { color: var(--red); }
-.tip {
-  color: #77bcff;
-  cursor: pointer;
-  font-size: 13px;
-  margin-top: 9px;
-  background: transparent;
-  padding: 5px 0;
-  min-height: 30px;
-  text-align: left;
-}
-.tipBody {
-  display: none;
-  background: #071d35;
-  padding: 12px;
-  border-radius: 8px;
-  color: #c5e3ff;
-  font-size: 13px;
-  line-height: 1.5;
-}
-.tipBody.open { display: block; }
-.full { width: 100%; margin-top: 13px; }
-.result {
-  font-size: 16px;
-  line-height: 1.8;
-  overflow-wrap: anywhere;
-}
-.result strong { color: var(--yellow); }
-.small { font-size: 12px; color: var(--muted); }
-.error {
-  background: #4b1b29;
-  border: 1px solid var(--red);
-  padding: 12px;
-  border-radius: 9px;
-}
-svg { width: 100%; height: auto; display: block; }
-.hidden { display: none !important; }
-.fieldrow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-.keypad {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 7px;
-}
-.keypad button { background: #235276; color: white; }
-.keypad .space {
-  grid-column: span 2;
-  background: var(--yellow);
-  color: #071a2e;
-}
-.keypad .clear { background: #873044; }
-.keypad .back { background: #385b7b; }
-#diagram {
-  background: #06182a;
-  border-radius: 9px;
-  margin-top: 12px;
-  padding: 8px;
-}
-@media(max-width: 380px) {
-  h1 { font-size: 22px; }
-  .panel { padding: 12px; }
-  button { font-size: 13px; }
-}
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#071a2e;color:#eef7ff;--panel:#102e4b;--line:#28628b;--blue:#245b80;--yellow:#ffd43b;--muted:#abc4d7}
+*{box-sizing:border-box}
+body{margin:0;padding:calc(env(safe-area-inset-top) + 12px) 12px 30px;max-width:850px;margin-inline:auto}
+h1{font-size:25px;margin:10px 0 4px}
+h2{font-size:20px;margin:4px 0 16px}
+p{color:var(--muted)}
+header{margin-bottom:18px}
+small{color:var(--muted)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;color:white;background:var(--blue);padding:13px 8px;font-weight:700;touch-action:manipulation}
+button:active{filter:brightness(1.2)}
+button.active,.primary,.space{background:var(--yellow);color:#081d32}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:17px;margin:14px 0}
+.hidden{display:none!important}
+label{display:block;margin:13px 0 6px;font-weight:650}
+input,select{width:100%;border:1px solid #487b9e;border-radius:10px;padding:14px;background:#061b30;color:white;font:inherit;font-size:19px;outline:none}
+input:focus{border-color:var(--yellow)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.grid button{min-height:49px}
+.space{grid-column:span 2}
+.danger{background:#87364a}
+.actions{display:grid;gap:9px;margin-top:18px}
+.result{background:#061b30;border:1px solid #39759e;border-radius:12px;padding:15px;margin-top:15px}
+.value{color:var(--yellow);font-weight:750}
+.row{padding:9px 0;border-bottom:1px solid #31516c}
+.row:last-child{border:0}
+.tip{color:#79c3ff;font-size:15px;margin-top:12px}
+details summary{cursor:pointer}
+details p{font-size:14px;line-height:1.5}
+svg{width:100%;height:auto;display:block;background:#071d31;border-radius:10px;margin-top:12px}
+.diagram-label{fill:#edf6ff;font-size:12px}
+.diagram-measure{fill:#ffd43b;font-size:12px;font-weight:700}
+.note{font-size:13px;color:var(--muted);line-height:1.5}
+@media(max-width:380px){.panel{padding:12px}.grid button{padding:11px 3px}h1{font-size:22px}}
 </style>
 </head>
 <body>
-<main>
 <header>
-<h1>⚡ EMT Field Pro</h1>
-<div class="sub">Professional Conduit Bending Calculator</div>
-<div class="version">VERSION 6</div>
+<h1>EMT Field Pro</h1>
+<small>Fraction Calculator & Conduit Bending</small>
 </header>
 
-<section class="panel">
-<h2>Conduit Bending</h2>
+<nav class="tabs">
+<button id="tabFraction" class="active" onclick="switchTab('fraction')">Fraction Calculator</button>
+<button id="tabBending" onclick="switchTab('bending')">Conduit Bending</button>
+</nav>
 
-<label for="bendType">Bend Type</label>
-<select id="bendType">
-<option value="offset">Offset — 2 Bends</option>
-<option value="saddle3">3-Point Saddle</option>
-<option value="saddle4">4-Point Saddle</option>
-<option value="kick">Kick Up / Down</option>
+<section id="fractionPage">
+<div class="panel">
+<h2>Fraction / Tape Calculator</h2>
+<label>First measurement (inches)</label>
+<input id="fractionA" class="measure" inputmode="none" placeholder="3 7/16">
+<label>Operation</label>
+<select id="fractionOp">
+<option value="+">+ Add</option>
+<option value="-">− Subtract</option>
+<option value="*">× Multiply</option>
+<option value="/">÷ Divide</option>
 </select>
-
-<label for="conduit">EMT Conduit Size</label>
-<select id="conduit">
-<option value="0.5">1/2" EMT</option>
-<option value="0.75">3/4" EMT</option>
-<option value="1">1" EMT</option>
-<option value="1.25">1-1/4" EMT</option>
-<option value="1.5">1-1/2" EMT</option>
-<option value="2">2" EMT</option>
-</select>
-
-<label for="angle">Bend Angle</label>
-<select id="angle"></select>
-
-<div id="commonFields">
-<label for="start">Distance to First Bend / Reference (inches)</label>
-<input id="start" class="measure" type="text" inputmode="none"
-placeholder="Example: 24 1/2" autocomplete="off">
-
-<label for="rise">Rise / Obstacle Height (inches)</label>
-<input id="rise" class="measure" type="text" inputmode="none"
-placeholder="Example: 3 1/2" autocomplete="off">
-</div>
-
-<div id="widthWrap" class="hidden">
-<label for="width">Obstacle Width (inches)</label>
-<input id="width" class="measure" type="text" inputmode="none"
-placeholder="Example: 8 1/4" autocomplete="off">
-</div>
-
-<div id="kickWrap" class="hidden">
-<label for="kickRun">Kick Run / Distance Between Bends (inches)</label>
-<input id="kickRun" class="measure" type="text" inputmode="none"
-placeholder="Example: 12" autocomplete="off">
-</div>
-
-<button class="tip" data-tip="inputTip">💡 Why? — Measurement input</button>
-<div class="tipBody" id="inputTip">
-Enter whole inches, fractions, or mixed numbers:
-3, 1/2, 3 1/2, 12 3/16.
-Use SPACE between the whole number and fraction.
-All displayed tape measurements round to the nearest 1/16".
+<label>Second measurement (inches)</label>
+<input id="fractionB" class="measure" inputmode="none" placeholder="1 3/8">
 </div>
 </section>
 
-<section class="panel">
+<section id="bendingPage" class="hidden">
+<div class="panel">
+<h2>Conduit Bending Calculator</h2>
+<label>Bending mode</label>
+<select id="bendMode" onchange="renderBendFields()">
+<option value="offset">Offset — 2 Bends</option>
+<option value="three">3-Point Saddle</option>
+<option value="four">4-Point Saddle</option>
+<option value="kick">Kick</option>
+</select>
+<label>Bend angle</label>
+<select id="bendAngle">
+<option value="10">10°</option>
+<option value="15">15°</option>
+<option value="22.5">22.5°</option>
+<option value="30" selected>30°</option>
+<option value="45">45°</option>
+<option value="60">60°</option>
+</select>
+<div id="bendFields"></div>
+<details class="tip"><summary>💡 Why? — Measurement input</summary>
+<p>Enter inches as whole numbers, fractions or mixed fractions, for example 4, 3/8 or 4 3/8.</p>
+</details>
+</div>
+</section>
+
+<div class="panel">
 <h2>Fraction / Tape Keypad</h2>
-<div class="small">Tap a measurement field, then use these buttons.</div>
-<div class="keypad" id="keypad">
+<p>Tap a measurement field, then use these buttons.</p>
+<div class="grid" id="keypad">
 <button data-key="1">1</button>
 <button data-key="2">2</button>
 <button data-key="3">3</button>
-<button data-key="back" class="back">⌫</button>
+<button data-key="BACK">⌫</button>
 <button data-key="4">4</button>
 <button data-key="5">5</button>
 <button data-key="6">6</button>
@@ -232,479 +114,274 @@ All displayed tape measurements round to the nearest 1/16".
 <button data-key="9">9</button>
 <button data-key=".">.</button>
 <button data-key="0">0</button>
-<button data-key="space" class="space">SPACE</button>
-<button data-key="clear" class="clear">C</button>
+<button class="space" data-key=" ">SPACE</button>
+<button class="danger" data-key="CLEAR">C</button>
 </div>
-<button class="tip" data-tip="spaceTip">💡 Why? — SPACE button</button>
-<div class="tipBody" id="spaceTip">
-SPACE inserts a real space at the cursor position.
-For example, enter 3, press SPACE, then enter 1/2.
-The result is 3 1/2 inches.
-This keypad works independently of the iPhone,
-iPad, or Android system keyboard.
+<details class="tip">
+<summary>💡 Why? — SPACE button</summary>
+<p>SPACE inserts a real space for mixed fractions such as 3 1/2. This works without relying on the iPhone or iPad keyboard.</p>
+</details>
 </div>
-</section>
 
-<section class="panel">
-<button class="yellow full" id="calculate">
-CALCULATE &amp; SHOW MARKS
-</button>
-<button class="dark full" id="reset">RESET</button>
-</section>
-
-<section class="panel hidden" id="resultPanel">
-<h2>Calculated Bend Marks</h2>
-<div id="result" class="result" aria-live="polite"></div>
-<div id="diagram"></div>
-<button class="tip" data-tip="formulaTip">
-💡 Why? — Calculation breakdown
-</button>
-<div class="tipBody" id="formulaTip"></div>
-</section>
-
-<section class="panel">
-<h2>Field Safety</h2>
-<div class="small">
-<span class="green">● GREEN</span> — Valid calculation<br>
-<span style="color:#ffd43b">● YELLOW</span> — Verify field conditions<br>
-<span class="red">● RED</span> — Invalid or unsafe input<br>
-<span style="color:#77bcff">💡 BLUE</span> — Explanation
+<div class="panel">
+<div class="actions">
+<button class="primary" onclick="calculate()">CALCULATE & SHOW MARKS</button>
+<button onclick="resetCurrent()">RESET</button>
 </div>
-<p class="small">
-Verify actual bender markings, manufacturer specifications,
-conduit springback, and job-site requirements before bending.
-Calculated marks are layout aids, not a substitute for a
-test bend or manufacturer instructions.
-</p>
-</section>
-
-<footer class="sub" style="text-align:center;padding:12px">
-EMT Field Pro v6
-</footer>
-</main>
+<div id="output" class="result" aria-live="polite">Enter measurements and press CALCULATE.</div>
+</div>
 
 <script>
 "use strict";
 
-const $ = id => document.getElementById(id);
-const bendType = $("bendType");
-const angleSelect = $("angle");
-let activeInput = null;
+let currentTab="fraction";
+let activeInput=null;
+const $=id=>document.getElementById(id);
+const rad=d=>d*Math.PI/180;
 
-const angleOptions = {
-  offset: [10, 15, 22.5, 30, 45, 60],
-  saddle3: [22.5, 30, 45],
-  saddle4: [22.5, 30, 45],
-  kick: [10, 15, 22.5, 30, 45, 60]
-};
-
-function setupMode() {
-  const mode = bendType.value;
-  const previous = Number(angleSelect.value);
-  angleSelect.innerHTML = "";
-
-  angleOptions[mode].forEach(angle => {
-    const option = document.createElement("option");
-    option.value = angle;
-    option.textContent = angle + "°";
-    angleSelect.appendChild(option);
-  });
-
-  angleSelect.value =
-    angleOptions[mode].includes(previous)
-    ? String(previous) : "30";
-
-  $("widthWrap").classList.toggle(
-    "hidden", mode !== "saddle4"
-  );
-  $("kickWrap").classList.toggle(
-    "hidden", mode !== "kick"
-  );
-
-  $("resultPanel").classList.add("hidden");
+function switchTab(tab){
+ currentTab=tab;
+ $("fractionPage").classList.toggle("hidden",tab!=="fraction");
+ $("bendingPage").classList.toggle("hidden",tab!=="bending");
+ $("tabFraction").classList.toggle("active",tab==="fraction");
+ $("tabBending").classList.toggle("active",tab==="bending");
+ activeInput=null;
+ $("output").textContent="Enter measurements and press CALCULATE.";
 }
 
-bendType.addEventListener("change", setupMode);
-setupMode();
+function renderBendFields(){
+ const mode=$("bendMode").value;
+ let html="";
+ const field=(id,label,value="")=>
+ `<label>${label}</label><input class="measure" id="${id}" inputmode="none" value="${value}">`;
+ if(mode==="offset"){
+  html+=field("rise","Offset height (inches)","4");
+  html+=field("start","First mark position (inches)","10");
+ }else if(mode==="three"){
+  html+=field("rise","Obstacle height (inches)","4");
+  html+=field("center","Center mark position (inches)","20");
+ }else if(mode==="four"){
+  html+=field("rise","Obstacle height (inches)","4");
+  html+=field("width","Obstacle width (inches)","4");
+  html+=field("start","First mark position (inches)","10");
+ }else{
+  html+=field("rise","Kick height (inches)","4");
+  html+=field("start","Kick mark position (inches)","10");
+ }
+ activeInput=null;
+ $("output").textContent="Enter measurements and press CALCULATE.";
+}
 
-document.querySelectorAll(".measure").forEach(input => {
-  input.addEventListener("focus", () => {
-    activeInput = input;
-  });
-  input.addEventListener("pointerdown", () => {
-    activeInput = input;
-  });
+function parseMeasure(value){
+ const s=String(value).trim().replace(/−/g,"-");
+ if(!s)throw Error("Enter all required measurements.");
+ if(!/^-?[\d./ ]+$/.test(s))throw Error("Invalid measurement.");
+ const parts=s.split(/\s+/);
+ if(parts.length>2)throw Error("Invalid mixed fraction.");
+ function part(t){
+  if(t.includes("/")){
+   const p=t.split("/");
+   if(p.length!==2||!p[0]||!p[1])throw Error("Invalid fraction.");
+   const a=Number(p[0]),b=Number(p[1]);
+   if(!Number.isFinite(a)||!Number.isInteger(a)||!Number.isInteger(b)||b===0)
+    throw Error("Invalid fraction denominator.");
+   return a/b;
+  }
+  const n=Number(t);
+  if(!Number.isFinite(n))throw Error("Invalid number.");
+  return n;
+ }
+ if(parts.length===1)return part(parts[0]);
+ const whole=part(parts[0]),frac=part(parts[1]);
+ if(!Number.isInteger(whole)||frac<0||frac>=1)
+  throw Error("Use mixed fractions such as 3 1/2.");
+ return Math.sign(whole||1)*(Math.abs(whole)+frac);
+}
+
+function read(id){
+ return parseMeasure($(id).value);
+}
+
+function gcd(a,b){
+ while(b){let t=b;b=a%b;a=t;}
+ return a||1;
+}
+
+function tape(n){
+ if(!Number.isFinite(n))throw Error("Invalid calculation.");
+ const negative=n<0?"−":"";
+ const units=Math.round(Math.abs(n)*16);
+ const whole=Math.floor(units/16);
+ let rem=units%16;
+ if(!rem)return negative+whole+'"';
+ const g=gcd(rem,16);
+ return negative+(whole?whole+" ":"")+rem/g+"/"+16/g+'"';
+}
+
+function numberText(n){
+ return Number(n.toFixed(5)).toString();
+}
+
+function addRow(name,value){
+ return `<div class="row">${name}: <span class="value">${value}</span></div>`;
+}
+
+function escapeText(s){
+ return String(s).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ })[c]);
+}
+
+function calculateFraction(){
+ const a=read("fractionA"),b=read("fractionB");
+ const op=$("fractionOp").value;
+ let result;
+ if(op==="+")result=a+b;
+ else if(op==="-")result=a-b;
+ else if(op==="*")result=a*b;
+ else{
+  if(b===0)throw Error("Cannot divide by zero.");
+  result=a/b;
+ }
+ return `<h2>Fraction Result</h2>`+
+ addRow("Result — nearest 1/16",tape(result))+
+ addRow("Decimal inches",numberText(result)+'"')+
+ `<details class="tip"><summary>💡 Why? — Calculation breakdown</summary>
+ <p>${escapeText(numberText(a))} ${escapeText(op)} ${escapeText(numberText(b))}
+ = ${escapeText(numberText(result))}. Tape display is rounded to 1/16 inch.</p></details>`;
+}
+
+function diagram(mode,marks,rise,width,angle){
+ const W=600,H=220;
+ const maxX=Math.max(...marks,1)+Math.max(width,8)+8;
+ const x=n=>35+(n/maxX)*530;
+ const base=165;
+ const scale=Math.min(65/Math.max(rise,1),15);
+ const lift=rise*scale;
+ let pts=[];
+ if(mode==="offset"){
+  pts=[[0,base],[marks[0],base],[marks[1],base-lift],[maxX,base-lift]];
+ }else if(mode==="three"){
+  pts=[[0,base],[marks[0],base],[marks[1],base-lift],[marks[2],base],[maxX,base]];
+ }else if(mode==="four"){
+  pts=[[0,base],[marks[0],base],[marks[1],base-lift],[marks[2],base-lift],[marks[3],base],[maxX,base]];
+ }else{
+  pts=[[0,base],[marks[0],base],[maxX,base-lift]];
+ }
+ const path=pts.map((p,i)=>(i?"L":"M")+x(p[0])+","+p[1]).join(" ");
+ let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Conduit bending diagram">
+ <line x1="20" y1="${base+10}" x2="580" y2="${base+10}" stroke="#42637c" stroke-dasharray="5 5"/>
+ <path d="${path}" fill="none" stroke="#ffd43b" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>`;
+ marks.forEach((m,i)=>{
+  const p=pts[i+1]||pts[1];
+  const cx=x(m),cy=p[1];
+  svg+=`<circle cx="${cx}" cy="${cy}" r="6" fill="#79d8ff" stroke="#061b30" stroke-width="2"/>
+  <line x1="${cx}" y1="${cy+8}" x2="${cx}" y2="193" stroke="#79d8ff" stroke-dasharray="3 3"/>
+  <text x="${cx}" y="${Math.max(14,cy-14)}" text-anchor="middle" class="diagram-label">M${i+1}</text>
+  <text x="${cx}" y="209" text-anchor="middle" class="diagram-measure">${escapeText(tape(m))}</text>`;
+ });
+ svg+=`<text x="18" y="20" class="diagram-label">Idealized conduit centerline — ${angle}° reference</text></svg>`;
+ return svg;
+}
+
+function calculateBend(){
+ const mode=$("bendMode").value;
+ const angle=Number($("bendAngle").value);
+ const rise=read("rise");
+ if(rise<=0)throw Error("Height must be greater than zero.");
+ const s=Math.sin(rad(angle));
+ if(s<=0)throw Error("Invalid bend angle.");
+ const spacing=rise/s;
+ let marks=[],title="",width=0,explain="";
+ if(mode==="offset"){
+  const start=read("start");
+  if(start<0)throw Error("Mark position cannot be negative.");
+  marks=[start,start+spacing];
+  title="Offset — 2 Bends";
+  explain="Spacing = offset height / sin(angle).";
+ }else if(mode==="three"){
+  if(angle>45)throw Error("Choose 45° or less for this saddle calculation.");
+  const center=read("center");
+  const side=rise/Math.sin(rad(angle));
+  if(center<side)throw Error("Center mark is too close to the conduit start.");
+  marks=[center-side,center,center+side];
+  title="3-Point Saddle";
+  explain="Idealized side spacing = obstacle height / sin(side bend angle). The center bend angle is twice the side bend angle.";
+ }else if(mode==="four"){
+  width=read("width");
+  const start=read("start");
+  if(width<0||start<0)throw Error("Measurements cannot be negative.");
+  marks=[start,start+spacing,start+spacing+width,start+2*spacing+width];
+  title="4-Point Saddle";
+  explain="Two idealized offsets separated by obstacle width. Spacing = height / sin(angle).";
+ }else{
+  const start=read("start");
+  if(start<0)throw Error("Mark position cannot be negative.");
+  marks=[start];
+  title="Kick";
+  explain="Idealized kick geometry; actual mark placement depends on the reference point and bender.";
+ }
+ let html=`<h2>${title}</h2>`;
+ marks.forEach((m,i)=>html+=addRow("Mark "+(i+1),tape(m)));
+ if(mode!=="kick")html+=addRow("Calculated bend spacing",tape(spacing));
+ if(mode==="four")html+=addRow("Obstacle width",tape(width));
+ html+=diagram(mode,marks,rise,width,angle);
+ html+=`<p class="note">Diagram is schematic, not to scale. Measurements are idealized centerline geometry; bender radius, take-up and shrink corrections are not included. Verify marks before bending actual conduit.</p>`;
+ html+=`<details class="tip"><summary>💡 Why? — Calculation breakdown</summary>
+ <p>${escapeText(explain)} Height = ${escapeText(tape(rise))},
+ angle = ${angle}°. Calculated spacing = ${escapeText(tape(spacing))}.
+ Final displayed measurements are rounded to 1/16 inch.</p></details>`;
+ return html;
+}
+
+function calculate(){
+ try{
+  $("output").innerHTML=currentTab==="fraction"?calculateFraction():calculateBend();
+ }catch(e){
+  $("output").textContent="⚠ "+e.message;
+ }
+}
+
+function resetCurrent(){
+ if(currentTab==="fraction"){
+  $("fractionA").value="";
+  $("fractionB").value="";
+  $("fractionOp").value="+";
+ }else{
+  renderBendFields();
+ }
+ activeInput=null;
+ $("output").textContent="Enter measurements and press CALCULATE.";
+}
+
+document.addEventListener("focusin",e=>{
+ if(e.target.classList.contains("measure"))activeInput=e.target;
 });
 
-function insertKey(key) {
-  if (!activeInput) {
-    activeInput = $("start");
-  }
-
-  const input = activeInput;
-  const begin = input.selectionStart ?? input.value.length;
-  const end = input.selectionEnd ?? input.value.length;
-  let value = input.value;
-  let cursor = begin;
-
-  if (key === "clear") {
-    value = "";
-    cursor = 0;
-  } else if (key === "back") {
-    if (begin !== end) {
-      value = value.slice(0, begin) + value.slice(end);
-    } else if (begin > 0) {
-      value = value.slice(0, begin - 1) + value.slice(end);
-      cursor--;
-    }
-  } else {
-    const char = key === "space" ? " " : key;
-    value = value.slice(0, begin) + char + value.slice(end);
-    cursor = begin + char.length;
-  }
-
-  input.value = value;
-  input.focus({preventScroll:true});
-  input.setSelectionRange(cursor, cursor);
-}
-
-$("keypad").addEventListener("pointerdown", e => {
-  if (e.target.closest("button")) e.preventDefault();
+$("keypad").addEventListener("pointerdown",e=>{
+ if(e.target.closest("button"))e.preventDefault();
 });
 
-$("keypad").addEventListener("click", e => {
-  const button = e.target.closest("button[data-key]");
-  if (!button) return;
-  insertKey(button.dataset.key);
+$("keypad").addEventListener("click",e=>{
+ const btn=e.target.closest("button");
+ if(!btn||!activeInput)return;
+ const key=btn.dataset.key;
+ const el=activeInput;
+ const a=el.selectionStart??el.value.length;
+ const b=el.selectionEnd??el.value.length;
+ if(key==="CLEAR"){
+  el.value="";
+  el.setSelectionRange(0,0);
+ }else if(key==="BACK"){
+  const from=a===b?Math.max(0,a-1):a;
+  el.setRangeText("",from,b,"end");
+ }else{
+  el.setRangeText(key,a,b,"end");
+ }
+ el.dispatchEvent(new Event("input",{bubbles:true}));
 });
 
-document.querySelectorAll("[data-tip]").forEach(button => {
-  button.addEventListener("click", () => {
-    $(button.dataset.tip).classList.toggle("open");
-  });
-});
-
-function parseInches(raw) {
-  const text = String(raw).trim().replace(/\s+/g, " ");
-  if (!text) throw Error("Enter all required measurements.");
-
-  let match;
-
-  if ((match = text.match(/^(\d+)\s+(\d+)\/(\d+)$/))) {
-    const whole = Number(match[1]);
-    const numerator = Number(match[2]);
-    const denominator = Number(match[3]);
-    if (!denominator || numerator >= denominator) {
-      throw Error("Invalid fraction: " + text);
-    }
-    return whole + numerator / denominator;
-  }
-
-  if ((match = text.match(/^(\d+)\/(\d+)$/))) {
-    const numerator = Number(match[1]);
-    const denominator = Number(match[2]);
-    if (!denominator) throw Error("Division by zero.");
-    return numerator / denominator;
-  }
-
-  if (/^\d+(\.\d+)?$/.test(text)) {
-    return Number(text);
-  }
-
-  throw Error(
-    "Invalid measurement: " + text +
-    ". Use a format such as 3 1/2."
-  );
-}
-
-function tape(value) {
-  if (!Number.isFinite(value)) return "Invalid";
-
-  const sign = value < 0 ? "-" : "";
-  let units = Math.round(Math.abs(value) * 16);
-  const whole = Math.floor(units / 16);
-  let fraction = units % 16;
-
-  if (fraction === 0) return sign + whole + '"';
-
-  let denominator = 16;
-  while (fraction % 2 === 0 && denominator > 1) {
-    fraction /= 2;
-    denominator /= 2;
-  }
-
-  return sign +
-    (whole ? whole + " " : "") +
-    fraction + "/" + denominator + '"';
-}
-
-function requirePositive(value, name) {
-  if (!Number.isFinite(value) || value <= 0) {
-    throw Error(name + " must be greater than zero.");
-  }
-}
-
-function safe(text) {
-  return String(text).replace(/[&<>"']/g, c => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  })[c]);
-}
-
-function markRow(label, position) {
-  return "<div>" + safe(label) +
-    ": <strong>" + tape(position) + "</strong></div>";
-}
-
-function drawDiagram(marks, heights, title) {
-  const width = 650;
-  const height = 200;
-  const left = 35;
-  const right = 615;
-  const min = Math.min(0, ...marks);
-  const max = Math.max(1, ...marks);
-  const span = max - min;
-  const x = value =>
-    left + (value - min) / span * (right - left);
-
-  const maxHeight = Math.max(1, ...heights);
-  const y = value => 145 - value / maxHeight * 85;
-
-  let svg =
-    '<svg viewBox="0 0 650 200" role="img" ' +
-    'aria-label="' + safe(title) + '">' +
-    '<line x1="20" y1="145" x2="630" y2="145" ' +
-    'stroke="#426581" stroke-dasharray="5 5"/>';
-
-  const points = marks.map((mark, index) =>
-    x(mark) + "," + y(heights[index])
-  ).join(" ");
-
-  svg += '<polyline points="' + points +
-    '" fill="none" stroke="#55e06f" ' +
-    'stroke-width="5" stroke-linejoin="round"/>';
-
-  marks.forEach((mark, index) => {
-    const px = x(mark);
-    const py = y(heights[index]);
-    svg +=
-      '<circle cx="' + px + '" cy="' + py +
-      '" r="5" fill="#ffd43b"/>' +
-      '<line x1="' + px + '" y1="' + py +
-      '" x2="' + px + '" y2="165" ' +
-      'stroke="#ffd43b" stroke-dasharray="3 4"/>' +
-      '<text x="' + px + '" y="182" ' +
-      'text-anchor="middle" fill="#eef7ff" ' +
-      'font-size="12">M' + (index + 1) + '</text>';
-  });
-
-  svg += '</svg>';
-  $("diagram").innerHTML = svg;
-}
-
-function calculate() {
-  const resultPanel = $("resultPanel");
-  const result = $("result");
-  const breakdown = $("formulaTip");
-
-  resultPanel.classList.remove("hidden");
-  $("diagram").innerHTML = "";
-  breakdown.textContent = "";
-  breakdown.classList.remove("open");
-
-  try {
-    const mode = bendType.value;
-    const angle = Number(angleSelect.value);
-    const radians = angle * Math.PI / 180;
-    const rise = parseInches($("rise").value);
-    const start = parseInches($("start").value);
-
-    requirePositive(rise, "Rise");
-    if (start < 0) throw Error("Reference cannot be negative.");
-
-    const sin = Math.sin(radians);
-    const tan = Math.tan(radians);
-    const cos = Math.cos(radians);
-
-    let html = "";
-    let formula = "";
-    let marks = [];
-    let heights = [];
-
-    if (mode === "offset") {
-      const spacing = rise / sin;
-      const shrink = rise * Math.tan(radians / 2);
-      const first = start + shrink;
-      const second = first + spacing;
-
-      marks = [first, second];
-      heights = [0, rise];
-
-      html += markRow("Mark 1", first);
-      html += markRow("Mark 2", second);
-      html += markRow("Bend spacing", spacing);
-      html += markRow("Calculated shrink", shrink);
-
-      formula =
-        "Offset: spacing = rise / sin(angle). " +
-        "Shrink = rise × tan(angle / 2). " +
-        "First mark assumes the reference is the " +
-        "desired offset transition location and " +
-        "uses the calculated shrink allowance.";
-    }
-
-    if (mode === "saddle3") {
-      const centerAngle = angle * 2;
-
-      if (centerAngle > 90) {
-        throw Error("Center bend exceeds 90°.");
-      }
-
-      const halfSpacing = rise / sin;
-      const center = start;
-      const first = center - halfSpacing;
-      const third = center + halfSpacing;
-
-      if (first < 0) {
-        throw Error(
-          "Not enough distance before saddle center " +
-          "for the first mark."
-        );
-      }
-
-      marks = [first, center, third];
-      heights = [0, rise, 0];
-
-      html += markRow("Mark 1", first);
-      html += markRow("Mark 2 — Center", center);
-      html += markRow("Mark 3", third);
-      html += markRow("Center-to-outer spacing", halfSpacing);
-      html += "<div>Outer bend angle: <strong>" +
-        angle + "°</strong></div>";
-      html += "<div>Center bend angle: <strong>" +
-        centerAngle + "°</strong></div>";
-
-      formula =
-        "3-point saddle: each outside bend is " +
-        angle + "°, center bend is " + centerAngle +
-        "° in the opposite direction. " +
-        "Center-to-outer mark spacing = rise / sin(angle). " +
-        "Start is the center-bend reference mark. " +
-        "Verify saddle geometry and bender marks " +
-        "with a test bend.";
-    }
-
-    if (mode === "saddle4") {
-      const obstacleWidth = parseInches($("width").value);
-      requirePositive(obstacleWidth, "Obstacle width");
-
-      const slopeLength = rise / sin;
-      const horizontalRun = rise / tan;
-
-      // Start represents the beginning of the first slope.
-      // Marks are distances along the unbent conduit.
-      const first = start;
-      const second = first + slopeLength;
-      const third = second + obstacleWidth;
-      const fourth = third + slopeLength;
-
-      marks = [first, second, third, fourth];
-      heights = [0, rise, rise, 0];
-
-      html += markRow("Mark 1", first);
-      html += markRow("Mark 2", second);
-      html += markRow("Mark 3", third);
-      html += markRow("Mark 4", fourth);
-      html += markRow("Ramp mark spacing", slopeLength);
-      html += markRow("Top flat section", obstacleWidth);
-      html += markRow("Horizontal ramp run", horizontalRun);
-
-      formula =
-        "4-point saddle: four bends of " + angle +
-        "°, alternating direction to produce " +
-        "two parallel offset transitions. " +
-        "Each ramp mark spacing = rise / sin(angle). " +
-        "The flat section between marks 2 and 3 " +
-        "equals the entered obstacle width. " +
-        "Start is the first bend mark. " +
-        "Allow additional clearance if required; " +
-        "the entered width must include that clearance. " +
-        "Check the real conduit geometry before bending.";
-    }
-
-    if (mode === "kick") {
-      const run = parseInches($("kickRun").value);
-      requirePositive(run, "Kick run");
-
-      const achievedRise = run * sin;
-      const requiredLength = rise / sin;
-      const horizontalProjection = run * cos;
-
-      marks = [start, start + run];
-      heights = [0, achievedRise];
-
-      html += markRow("Kick bend mark", start);
-      html += markRow("Run endpoint", start + run);
-      html += markRow("Rise at entered run", achievedRise);
-      html += markRow("Length for target rise", requiredLength);
-      html += markRow(
-        "Horizontal projection of entered run",
-        horizontalProjection
-      );
-
-      const difference = Math.abs(achievedRise - rise);
-
-      if (difference > 1/16) {
-        html += '<div style="color:#ffd43b">' +
-          "⚠ Entered run and target rise do not match " +
-          "at the selected angle.</div>";
-      } else {
-        html += '<div class="green">● Rise matches ' +
-          'within 1/16".</div>';
-      }
-
-      formula =
-        "Kick: rise = straight conduit length × sin(angle). " +
-        "Required straight length = target rise / sin(angle). " +
-        "Horizontal projection = straight length × cos(angle). " +
-        "This is a geometric kick calculator, not a " +
-        "manufacturer-specific bender take-up chart.";
-    }
-
-    html += '<div class="green" style="margin-top:10px">' +
-      "● Calculation completed</div>";
-    html += '<p class="small">Measurements are rounded ' +
-      'to the nearest 1/16". Verify bender calibration ' +
-      'and field clearances.</p>';
-
-    result.innerHTML = html;
-    breakdown.textContent = formula;
-    drawDiagram(marks, heights, "Conduit bend layout");
-
-  } catch (error) {
-    result.innerHTML =
-      '<div class="error">● ' +
-      safe(error.message) + '</div>';
-  }
-
-  resultPanel.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
-}
-
-$("calculate").addEventListener("click", calculate);
-
-$("reset").addEventListener("click", () => {
-  document.querySelectorAll(".measure").forEach(input => {
-    input.value = "";
-  });
-  $("resultPanel").classList.add("hidden");
-  activeInput = null;
-});
+renderBendFields();
 </script>
 </body>
 </html>
