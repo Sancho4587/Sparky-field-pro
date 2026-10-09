@@ -110,12 +110,7 @@ input:focus{outline:3px solid var(--yellow)}
 
 <section id="bendingPage">
 <div class="modes" id="modeButtons"></div>
-<div class="panel">
-<h2 id="diagramTitle">Up Offset • 2 Bends</h2>
-<div class="content">
-<svg id="diagram" class="diagram" viewBox="0 0 760 380" role="img" aria-label="Conduit bending diagram"></svg>
-</div>
-</div>
+
 
 <div class="panel">
 <h2>Field Measurements</h2>
@@ -133,19 +128,25 @@ input:focus{outline:3px solid var(--yellow)}
 </div>
 </div>
 
-<div class="panel">
-<h2>Calculated Results</h2>
-<div id="bendResults" class="results"></div>
-</div>
+
+<div id="bendResults" hidden></div>
+
 </section>
 
 <div class="keyboard" id="keyboard"></div>
-<p class="help">Measurements in inches • Rounded to nearest 1/8″ • Diagram not to scale</p>
+
+<div class="panel">
+<h2 id="diagramTitle">Up Offset • 2 Bends</h2>
+<div class="content">
+<svg id="diagram" class="diagram" viewBox="0 0 760 380" role="img" aria-label="Conduit bending diagram"></svg>
+</div>
 </div>
 
+<p class="help">Measurements in inches • Rounded to nearest 1/8″ • Diagram not to scale</p>
+</div>
+  
 <script>
 "use strict";
-
 const state={
  tab:"bending",
  mode:"offset",
