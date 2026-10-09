@@ -92,7 +92,7 @@ input:focus{outline:3px solid var(--yellow)}
 <div class="content">
 <div class="field">
 <label>First Measurement</label>
-<div class="entry"><input id="fracA" readonly placeholder="0"><span class="units">in</span></div>
+<div class="entry"><<input id="fracA" readonly placeholder="0" onclick="selectInput(this)">><span class="units">in</span></div>
 </div>
 <div class="field">
 <label>Operation</label>
@@ -100,7 +100,7 @@ input:focus{outline:3px solid var(--yellow)}
 </div>
 <div class="field">
 <label>Second Measurement</label>
-<div class="entry"><input id="fracB" readonly placeholder="0"><span class="units">in</span></div>
+<div class="entry"><<input id="fracB" readonly placeholder="0" onclick="selectInput(this)">><span class="units">in</span></div>
 </div>
 <div class="fraction-result" id="fractionResult">0″</div>
 <div class="error" id="fractionError"></div>
