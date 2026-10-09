@@ -542,7 +542,7 @@ function drawDiagram(c){
   s+=dimension(245,65,380,65,fmt(c.spacing),52);
   s+=dimension(380,65,515,65,fmt(c.spacing),52);
   s+=svgText(245,260,c.a+"°",green);
-  s+=svgText(380,80,2*c.a+"°",green);
+  s+=svgText(435,140,2*c.a+"°",green,16);
   s+=svgText(515,260,c.a+"°",green);
   s+=line(45,300,380,300,yellow);
   s+=svgText(210,289,"START → CENTER: "+fmt(c.d),yellow,15);
@@ -557,7 +557,13 @@ function drawDiagram(c){
   s+=dimension(305,65,455,65,"TOP: "+fmt(c.w),53);
   s+=dimension(195,285,565,285,
     "SLOPE SPACING: "+fmt(c.spacing),273);
-  s+=svgText(380,335,"SHRINKAGE: "+fmt(c.shrink),green,17);
+  
+  // START to obstacle center — horizontal field measurement
+  s+=line(40,230,40,315,yellow,1.5,"5 5");
+  s+=line(380,110,380,315,yellow,1.5,"5 5");
+  s+=dimension(40,315,380,315,
+    "START → OBSTACLE CENTER: "+fmt(c.d),305);
+s+=svgText(380,335,"SHRINKAGE: "+fmt(c.shrink),green,17);
   s+=svgText(40,253,"START",green,14,"start");
   s+=svgText(380,365,"H: "+fmt(c.h)+"   •   "+c.a+"° EACH",yellow,15);
  }else{
