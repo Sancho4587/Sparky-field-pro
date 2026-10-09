@@ -1,807 +1,547 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#061525">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071b30">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 <title>EMT Field Pro</title>
 <style>
-:root{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  color:#eef6ff;background:#061525;
-  --blue:#0877df;--yellow:#ffd039;--green:#64dca0;
-  --muted:#a9bfd4;
-}
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#edf6ff;background:#071b30;--panel:#102d48;--line:#2c5575;--gold:#ffda51;--blue:#43a6ff;--green:#90e4af}
 *{box-sizing:border-box}
-body{margin:0;background:#061525}
+body{margin:0}
 button,input{font:inherit}
 button{cursor:pointer;touch-action:manipulation}
-.app{
-  max-width:650px;margin:auto;
-  padding:calc(env(safe-area-inset-top) + 12px) 12px
-          calc(env(safe-area-inset-bottom) + 18px);
-}
-header{
-  display:flex;justify-content:space-between;
-  align-items:center;padding:7px 5px 16px;
-}
-.brand{font-size:clamp(25px,6vw,34px);font-weight:850;letter-spacing:-1px}
-.brand span{color:var(--yellow)}
-.version{font-size:11px;color:var(--muted)}
-.tabs{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:3px;background:#0a365e;padding:3px;border-radius:10px;
-}
-.tabs button{
-  border:0;border-radius:8px;background:transparent;
-  color:#c8dcf0;padding:13px 5px;font-size:14px;font-weight:700;
-}
-.tabs button.active{background:var(--blue);color:white}
-.modes{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:7px;margin:13px 0;
-}
-.mode{
-  background:#0a233d;border:1px solid #294764;
-  border-radius:9px;color:white;min-height:93px;
-  padding:8px 3px;font-size:11px;font-weight:700;
-}
-.mode.active{border:2px solid var(--yellow);color:var(--yellow)}
-.mode svg{width:100%;height:40px;display:block;margin-bottom:6px}
-.panel{
-  border:1px solid #174b78;background:#08233e;
-  border-radius:13px;overflow:hidden;margin:12px 0;
-}
-.panel-title{
-  background:linear-gradient(110deg,#07518e,#0869b8);
-  font-size:19px;font-weight:800;padding:11px 13px;
-}
-.panel-title small{
-  float:right;font-size:11px;font-weight:400;margin-top:6px;
-}
-.diagram-wrap{padding:10px 8px 5px}
-.diagram{width:100%;display:block}
-.diagram text{font-family:Arial,sans-serif}
-.section{padding:12px}
-.field{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:8px;border-bottom:1px solid #294764;padding:10px 0;
-}
-.field:last-child{border-bottom:0}
-.field label{font-size:14px;flex:1}
-.measure{
-  width:102px;min-height:43px;border:1px solid #6a829c;
-  border-radius:7px;background:#edf4ff;color:#14243a;
-  font-weight:700;font-size:19px;padding:8px;
-  text-align:center;outline:none;
-}
-.measure.selected{border:3px solid var(--yellow)}
-.unit{font-size:13px}
-.choices{
-  display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;
-}
-.choice{
-  border:1px solid #45617d;background:#193b59;
-  color:#edf5ff;padding:9px 10px;border-radius:7px;
-  font-weight:700;font-size:13px;
-}
-.choice.active{background:var(--blue);border-color:#50a9ff}
-.result-row{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:12px;border-bottom:1px solid #294764;padding:10px 0;
-}
-.result-row:last-child{border-bottom:0}
-.result-row span{font-size:14px}
-.result-row strong{
-  color:#0a2035;background:#ffd75a;padding:9px 11px;
-  border-radius:7px;text-align:center;min-width:90px;font-size:16px;
-}
-.result-row strong.green{background:#91e4ac}
-.hint{
-  font-size:12px;color:var(--muted);
-  line-height:1.5;margin:10px 0;
-}
+.app{max-width:720px;margin:auto;padding:calc(env(safe-area-inset-top) + 12px) 12px calc(env(safe-area-inset-bottom) + 20px)}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.brand{font-size:clamp(23px,6vw,32px);font-weight:850}
+.brand b{color:var(--gold)}
+.tag{font-size:11px;color:#a3c4df}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:#103956;padding:3px;border-radius:10px;gap:3px}
+.tabs button{background:transparent;color:#d8e8f5;border:0;border-radius:8px;padding:12px 4px;font-weight:750}
+.tabs button.active{background:#0876cc;color:#fff}
+.modes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:12px 0}
+.mode{min-height:76px;border:1px solid #406581;background:#153652;color:#edf6ff;border-radius:9px;padding:5px 2px;font-size:11px;font-weight:750}
+.mode.active{border:2px solid var(--gold);color:var(--gold)}
+.mode svg{width:100%;height:32px;display:block;margin-bottom:5px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:11px 0}
+.heading{background:linear-gradient(110deg,#0b548f,#0a79d0);font-weight:800;font-size:16px;padding:11px 13px}
+.content{padding:12px}
+.diagram{width:100%;display:block;height:auto}
+.field{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #2b4b67}
+.field:last-child{border:0}
+.field label{flex:1;font-size:13px}
+.measure{width:110px;min-height:43px;border:2px solid #8ca6bd;border-radius:8px;background:#f1f7ff;color:#12283b;font-size:18px;font-weight:750;text-align:center;padding:5px}
+.measure.selected,.calc-input.selected{outline:3px solid var(--gold);outline-offset:1px}
+.unit{font-size:12px}
+.options{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:5px}
+.option{padding:8px 9px;background:#1b4565;border:1px solid #547c9a;border-radius:7px;color:#fff;font-size:12px;font-weight:700}
+.option.active{background:#087ce0;border-color:#a2d6ff}
+.result{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #2a4d69}
+.result:last-child{border:0}
+.result span{font-size:13px}
+.result strong{background:var(--gold);color:#14283b;border-radius:7px;padding:8px;min-width:100px;text-align:center;font-size:15px}
+.result strong.green{background:var(--green)}
+.subhead{font-size:12px;color:#a5c9e6;text-transform:uppercase;letter-spacing:.04em;font-weight:800;margin:14px 0 5px}
+.hint{font-size:12px;line-height:1.55;color:#b5cee0;margin:10px 0}
+.warn{color:#ffd09b}
 .hidden{display:none!important}
-.calc-display{
-  background:#e9f2ff;color:#10263b;
-  padding:12px;border-radius:9px;margin-top:9px;
-}
-.calc-display input{
-  width:100%;border:0;background:transparent;
-  color:#10263b;font-size:24px;font-weight:700;outline:none;
-}
-.calc-display.selected{outline:3px solid var(--yellow)}
-.calc-result{
-  padding:13px 0;font-size:29px;
-  font-weight:850;color:var(--green);
-}
-.op-row{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:7px;margin:12px 0;
-}
-.op-row button{
-  border:1px solid #47627c;border-radius:8px;
-  background:#193b59;color:white;padding:13px;font-size:24px;
-}
-.op-row button.active{background:var(--blue)}
-.fractions{
-  display:grid;grid-template-columns:repeat(7,1fr);gap:4px;
-}
-.keypad{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:6px;margin-top:8px;
-}
-.key{
-  border:0;border-radius:8px;background:#213a53;
-  color:white;min-height:48px;font-size:23px;font-weight:650;
-}
-.key.special{background:var(--blue)}
-.key.space{font-size:15px}
-.key.fraction{
-  font-size:15px;min-height:39px;background:#18324d;
-}
-footer{
-  text-align:center;color:#6f91af;font-size:11px;padding:13px;
-}
-@media(min-width:550px){
-  .mode{font-size:13px}
-  .app{padding-left:20px;padding-right:20px}
-}
+.keyboard-wrap{margin:11px 0}
+.fractions{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.keypad{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.key{border:0;border-radius:8px;min-height:47px;background:#254663;color:#fff;font-size:22px;font-weight:750}
+.key.fraction{min-height:38px;font-size:14px;background:#1d3b56}
+.key.special{background:#0b79d3}
+.key.space{font-size:13px}
+.calc-input{background:#edf5ff;border-radius:9px;padding:11px;margin:9px 0;color:#12243a}
+.calc-input input{width:100%;border:0;outline:0;background:transparent;font-size:23px;font-weight:750;color:#12243a}
+.operations{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0}
+.operations button{border:1px solid #4b718f;border-radius:8px;background:#1b4162;color:#fff;font-size:23px;padding:9px}
+.operations button.active{background:#0877df}
+.calc-result{font-size:28px;color:var(--green);font-weight:850;padding:8px 0}
+.foot{text-align:center;color:#8babc3;font-size:11px;padding:14px 0}
+@media(min-width:550px){.mode{font-size:13px}.app{padding-left:20px;padding-right:20px}}
 </style>
 </head>
 <body>
-<div class="app">
-
+<main class="app">
 <header>
-  <div class="brand"><span>EMT</span> Field Pro</div>
-  <div class="version">Auto Calc</div>
+<div class="brand"><b>EMT</b> Field Pro</div>
+<div class="tag">Klein Tools • Auto Calc</div>
 </header>
 
 <nav class="tabs">
-  <button id="tabFraction" onclick="switchTab('fraction')">
-    Fraction Calc
-  </button>
-  <button id="tabBending" class="active" onclick="switchTab('bending')">
-    Conduit Bending
-  </button>
+<button id="tabFraction" onclick="switchTab('fraction')">Fraction Calc</button>
+<button id="tabBending" class="active" onclick="switchTab('bending')">Conduit Bending</button>
 </nav>
 
 <section id="bendingPage">
-  <div class="modes">
-    <button class="mode active" data-mode="offset"
-            onclick="setMode('offset')">
-      <svg viewBox="0 0 90 40">
-        <path d="M5 31H25L62 9H85" fill="none"
-              stroke="#cbd6e1" stroke-width="7"
-              stroke-linejoin="round" stroke-linecap="round"/>
-      </svg>
-      Offset<br>2 Bends
-    </button>
+<div class="modes">
+<button class="mode active" data-mode="offset" onclick="setMode('offset')">
+<svg viewBox="0 0 90 40"><path d="M5 32H27L62 9H85" stroke="#cfe7fa" stroke-width="5" fill="none"/></svg>Up Offset
+</button>
+<button class="mode" data-mode="three" onclick="setMode('three')">
+<svg viewBox="0 0 90 40"><path d="M4 32H20L45 8L70 32H86" stroke="#cfe7fa" stroke-width="5" fill="none"/></svg>3-Point
+</button>
+<button class="mode" data-mode="four" onclick="setMode('four')">
+<svg viewBox="0 0 90 40"><path d="M4 32H17L32 9H58L73 32H86" stroke="#cfe7fa" stroke-width="5" fill="none"/></svg>4-Point
+</button>
+<button class="mode" data-mode="kick" onclick="setMode('kick')">
+<svg viewBox="0 0 90 40"><path d="M5 32H28L85 8" stroke="#cfe7fa" stroke-width="5" fill="none"/></svg>Kick Up
+</button>
+</div>
 
-    <button class="mode" data-mode="three"
-            onclick="setMode('three')">
-      <svg viewBox="0 0 90 40">
-        <path d="M5 31H20L45 9L70 31H85" fill="none"
-              stroke="#cbd6e1" stroke-width="7"
-              stroke-linejoin="round" stroke-linecap="round"/>
-      </svg>
-      3-Point<br>Saddle
-    </button>
+<div class="panel">
+<div class="heading" id="bendTitle">Up Offset • 2 Bends</div>
+<div class="content" style="padding:5px">
+<svg id="bendDiagram" class="diagram" viewBox="0 0 390 270" aria-label="Bending diagram with START, bend marks, measured distance and shrinkage"></svg>
+</div>
+</div>
 
-    <button class="mode" data-mode="four"
-            onclick="setMode('four')">
-      <svg viewBox="0 0 90 40">
-        <path d="M4 31H17L32 10H58L73 31H86" fill="none"
-              stroke="#cbd6e1" stroke-width="7"
-              stroke-linejoin="round" stroke-linecap="round"/>
-      </svg>
-      4-Point<br>Saddle
-    </button>
+<div class="panel">
+<div class="heading">Field Measurements</div>
+<div class="content">
+<div class="field">
+<label>EMT Size</label>
+<div class="options" id="sizes">
+<button class="option active" data-size="0.5" onclick="setSize(.5)">1/2&quot;</button>
+<button class="option" data-size="0.75" onclick="setSize(.75)">3/4&quot;</button>
+<button class="option" data-size="1" onclick="setSize(1)">1&quot;</button>
+</div>
+</div>
+<div class="field">
+<label id="heightLabel">Offset Height</label>
+<input id="height" class="measure" value="2" readonly onclick="focusField(this)">
+<span class="unit">in</span>
+</div>
+<div class="field">
+<label id="distanceLabel">START → Target Position</label>
+<input id="distance" class="measure" value="24" readonly onclick="focusField(this)">
+<span class="unit">in</span>
+</div>
+<div class="field hidden" id="widthRow">
+<label>Top Straight Clearance</label>
+<input id="widthInput" class="measure" value="6" readonly onclick="focusField(this)">
+<span class="unit">in</span>
+</div>
+<div class="field">
+<label id="angleLabel">Bend Angle</label>
+<div class="options" id="angles"></div>
+</div>
+</div>
+</div>
 
-    <button class="mode" data-mode="kick"
-            onclick="setMode('kick')">
-      <svg viewBox="0 0 90 40">
-        <path d="M5 31H29L85 8" fill="none"
-              stroke="#cbd6e1" stroke-width="7"
-              stroke-linejoin="round" stroke-linecap="round"/>
-      </svg>
-      Kick
-    </button>
-  </div>
+<div id="keyboardBending" class="keyboard-wrap"></div>
 
-  <div class="panel">
-    <div class="panel-title">
-      <span id="bendTitle">Up Offset (2 Bends)</span>
-      <small>Side View</small>
-    </div>
-    <div class="diagram-wrap">
-      <svg id="bendDiagram" class="diagram"
-           viewBox="0 0 350 190"
-           role="img"
-           aria-label="Vector conduit bending diagram"></svg>
-    </div>
-  </div>
+<div class="panel">
+<div class="heading">Calculated Results</div>
+<div class="content" id="results"></div>
+</div>
 
-  <div class="panel">
-    <div class="panel-title">Inputs</div>
-    <div class="section">
-      <div class="field">
-        <label id="heightLabel">Offset Height (H)</label>
-        <input id="height" class="measure"
-               value="1 1/4" readonly
-               onclick="focusField(this)">
-        <span class="unit">in</span>
-      </div>
-
-      <div class="field">
-        <label id="distanceLabel">Distance from Box Connector</label>
-        <input id="distance" class="measure"
-               value="4" readonly
-               onclick="focusField(this)">
-        <span class="unit">in</span>
-      </div>
-
-      <div id="widthRow" class="field hidden">
-        <label>Obstacle Width</label>
-        <input id="widthInput" class="measure"
-               value="4" readonly
-               onclick="focusField(this)">
-        <span class="unit">in</span>
-      </div>
-
-      <div class="field">
-        <label>Bend Angle</label>
-        <div class="choices" id="angles">
-          <button class="choice" data-angle="10"
-                  onclick="setAngle(10)">10°</button>
-          <button class="choice active" data-angle="22.5"
-                  onclick="setAngle(22.5)">22.5°</button>
-          <button class="choice" data-angle="30"
-                  onclick="setAngle(30)">30°</button>
-          <button class="choice" data-angle="45"
-                  onclick="setAngle(45)">45°</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-title">Calculated Results</div>
-    <div class="section" id="results"></div>
-  </div>
-
-  <p class="hint">
-    Automatic calculations • US tape fractions • Nearest 1/8"
-  </p>
+<p class="hint">START (0&quot;) = straight pipe end at the box-connector side. All M marks are tape distances from START, not from the previous bend. Rounded to nearest 1/8&quot;.</p>
 </section>
 
 <section id="fractionPage" class="hidden">
-  <div class="panel">
-    <div class="panel-title">Fraction Calculator</div>
-    <div class="section">
-      <label>First Measurement</label>
-      <div class="calc-display">
-        <input id="fractionA" value="3 1/2" readonly
-               onclick="focusField(this)">
-      </div>
-
-      <div class="op-row">
-        <button class="active"
-                onclick="setOperation(this,'+')">+</button>
-        <button onclick="setOperation(this,'-')">−</button>
-        <button onclick="setOperation(this,'*')">×</button>
-        <button onclick="setOperation(this,'/')">÷</button>
-      </div>
-
-      <label>Second Measurement</label>
-      <div class="calc-display">
-        <input id="fractionB" value="1 1/4" readonly
-               onclick="focusField(this)">
-      </div>
-
-      <div class="calc-result" id="fractionResult">4 3/4"</div>
-    </div>
-  </div>
+<div class="panel">
+<div class="heading">Fraction Calculator</div>
+<div class="content">
+<label>First Measurement</label>
+<div class="calc-input"><input id="fractionA" value="3 1/2" readonly onclick="focusField(this)"></div>
+<div class="operations">
+<button class="active" onclick="setOperation(this,'+')">+</button>
+<button onclick="setOperation(this,'-')">−</button>
+<button onclick="setOperation(this,'*')">×</button>
+<button onclick="setOperation(this,'/')">÷</button>
+</div>
+<label>Second Measurement</label>
+<div class="calc-input"><input id="fractionB" value="1 1/4" readonly onclick="focusField(this)"></div>
+<div class="calc-result" id="fractionResult">4 3/4&quot;</div>
+</div>
+</div>
+<div id="keyboardFraction" class="keyboard-wrap"></div>
 </section>
 
-<div id="keyboard">
-  <div class="fractions">
-    <button class="key fraction" onclick="typeKey('1/2')">1/2</button>
-    <button class="key fraction" onclick="typeKey('1/4')">1/4</button>
-    <button class="key fraction" onclick="typeKey('1/8')">1/8</button>
-    <button class="key fraction" onclick="typeKey('3/8')">3/8</button>
-    <button class="key fraction" onclick="typeKey('5/8')">5/8</button>
-    <button class="key fraction" onclick="typeKey('3/4')">3/4</button>
-    <button class="key fraction" onclick="typeKey('7/8')">7/8</button>
-  </div>
-
-  <div class="keypad">
-    <button class="key" onclick="typeKey('1')">1</button>
-    <button class="key" onclick="typeKey('2')">2</button>
-    <button class="key" onclick="typeKey('3')">3</button>
-    <button class="key" onclick="backspace()">⌫</button>
-
-    <button class="key" onclick="typeKey('4')">4</button>
-    <button class="key" onclick="typeKey('5')">5</button>
-    <button class="key" onclick="typeKey('6')">6</button>
-    <button class="key special" onclick="toggleSign()">+/−</button>
-
-    <button class="key" onclick="typeKey('7')">7</button>
-    <button class="key" onclick="typeKey('8')">8</button>
-    <button class="key" onclick="typeKey('9')">9</button>
-    <button class="key special space"
-            onclick="typeKey(' ')">SPACE</button>
-
-    <button class="key" onclick="typeKey('0')">0</button>
-    <button class="key" onclick="typeKey('/')">/</button>
-    <button class="key" onclick="typeKey('.')">.</button>
-    <button class="key" onclick="clearField()">C</button>
-  </div>
+<template id="keyboardTemplate">
+<div class="fractions">
+<button class="key fraction" onclick="typeKey('1/2')">1/2</button>
+<button class="key fraction" onclick="typeKey('1/4')">1/4</button>
+<button class="key fraction" onclick="typeKey('1/8')">1/8</button>
+<button class="key fraction" onclick="typeKey('3/8')">3/8</button>
+<button class="key fraction" onclick="typeKey('5/8')">5/8</button>
+<button class="key fraction" onclick="typeKey('3/4')">3/4</button>
+<button class="key fraction" onclick="typeKey('7/8')">7/8</button>
 </div>
-
-<footer>EMT Field Pro • Auto Calculation Edition</footer>
+<div class="keypad">
+<button class="key" onclick="typeKey('1')">1</button>
+<button class="key" onclick="typeKey('2')">2</button>
+<button class="key" onclick="typeKey('3')">3</button>
+<button class="key" onclick="backspace()">⌫</button>
+<button class="key" onclick="typeKey('4')">4</button>
+<button class="key" onclick="typeKey('5')">5</button>
+<button class="key" onclick="typeKey('6')">6</button>
+<button class="key special" onclick="toggleSign()">+/−</button>
+<button class="key" onclick="typeKey('7')">7</button>
+<button class="key" onclick="typeKey('8')">8</button>
+<button class="key" onclick="typeKey('9')">9</button>
+<button class="key special space" onclick="typeKey(' ')">SPACE</button>
+<button class="key" onclick="typeKey('0')">0</button>
+<button class="key" onclick="typeKey('/')">/</button>
+<button class="key" onclick="typeKey('.')">.</button>
+<button class="key" onclick="clearField()">C</button>
 </div>
+</template>
+
+<div class="foot">EMT Field Pro • YAR Labs</div>
+</main>
 
 <script>
-"use strict";
+'use strict';
+const $=id=>document.getElementById(id);
+let tab='bending',mode='offset',size=.5,angle=22.5,manualAngle=false,operation='+',activeField=$('height');
 
-const $ = id => document.getElementById(id);
-
-let currentTab = "bending";
-let mode = "offset";
-let angle = 22.5;
-let manualAngle = false;
-let operation = "+";
-let activeField = $("height");
-
-function parseMeasure(input) {
-  const s = String(input).trim().replace(/"/g, "");
-  if (!s) return NaN;
-
-  const mixed = s.match(
-    /^([+-])?\s*(\d+(?:\.\d+)?)\s+(\d+)\/(\d+)$/
-  );
-
-  if (mixed) {
-    const den = Number(mixed[4]);
-    if (!den) return NaN;
-    return (mixed[1] === "-" ? -1 : 1) *
-      (Number(mixed[2]) + Number(mixed[3]) / den);
-  }
-
-  const fraction = s.match(
-    /^([+-])?\s*(\d+)\/(\d+)$/
-  );
-
-  if (fraction) {
-    const den = Number(fraction[3]);
-    if (!den) return NaN;
-    return (fraction[1] === "-" ? -1 : 1) *
-      Number(fraction[2]) / den;
-  }
-
-  if (/^[+-]?\d+(?:\.\d+)?$/.test(s)) {
-    return Number(s);
-  }
-
-  return NaN;
+function installKeyboards(){
+  const html=$('keyboardTemplate').innerHTML;
+  $('keyboardBending').innerHTML=html;
+  $('keyboardFraction').innerHTML=html;
 }
 
-function gcd(a, b) {
-  return b ? gcd(b, a % b) : a;
+function parseMeasure(raw){
+  const s=String(raw).trim().replace(/"/g,'');
+  if(!s)return NaN;
+  let m=s.match(/^([+-])?\s*(\d+(?:\.\d+)?)\s+(\d+)\/(\d+)$/);
+  if(m)return +m[4]?(m[1]==='-'?-1:1)*(+m[2]+ +m[3]/+m[4]):NaN;
+  m=s.match(/^([+-])?\s*(\d+)\/(\d+)$/);
+  if(m)return +m[3]?(m[1]==='-'?-1:1)*(+m[2]/+m[3]):NaN;
+  return /^[+-]?\d+(?:\.\d+)?$/.test(s)?+s:NaN;
 }
-
-function fmt(value) {
-  if (!Number.isFinite(value)) return "—";
-
-  const sign = value < 0 ? "−" : "";
-  const eighths = Math.round(Math.abs(value) * 8);
-  const whole = Math.floor(eighths / 8);
-  const rem = eighths % 8;
-
-  if (!rem) return sign + whole + '"';
-
-  const g = gcd(rem, 8);
-
-  return sign +
-    (whole ? whole + " " : "") +
-    (rem / g) + "/" + (8 / g) + '"';
+function gcd(a,b){return b?gcd(b,a%b):a}
+function fmt(v){
+  if(!Number.isFinite(v))return '—';
+  const n=Math.round(Math.abs(v)*8),whole=Math.floor(n/8),rem=n%8,sign=v<0&&n?'−':'';
+  if(!rem)return sign+whole+'"';
+  const g=gcd(rem,8);
+  return sign+(whole?whole+' ':'')+(rem/g)+'/'+(8/g)+'"';
 }
-
-function focusField(field) {
-  activeField = field;
-
-  document.querySelectorAll(".measure,.calc-display")
-    .forEach(el => el.classList.remove("selected"));
-
-  if (field.closest(".calc-display")) {
-    field.closest(".calc-display").classList.add("selected");
-  } else {
-    field.classList.add("selected");
+function focusField(el){
+  activeField=el;
+  document.querySelectorAll('.measure,.calc-input').forEach(e=>e.classList.remove('selected'));
+  (el.closest('.calc-input')||el).classList.add('selected');
+}
+function refresh(){tab==='fraction'?calculateFraction():calculate()}
+function typeKey(k){
+  if(!activeField)return;
+  const s=activeField.value;
+  if(k.includes('/')&&k!=='/'&&s&&/\d$/.test(s)&&!s.endsWith(' '))activeField.value+=' ';
+  activeField.value+=k;
+  refresh();
+}
+function backspace(){
+  if(activeField){activeField.value=activeField.value.slice(0,-1);refresh()}
+}
+function clearField(){
+  if(activeField){activeField.value='';refresh()}
+}
+function toggleSign(){
+  if(activeField){
+    activeField.value=activeField.value.startsWith('-')?activeField.value.slice(1):'-'+activeField.value;
+    refresh();
   }
 }
-
-function refreshCalculations() {
-  if (currentTab === "fraction") {
-    calculateFraction();
-  } else {
-    calculate();
-  }
+function switchTab(t){
+  tab=t;
+  $('bendingPage').classList.toggle('hidden',t!=='bending');
+  $('fractionPage').classList.toggle('hidden',t!=='fraction');
+  $('tabBending').classList.toggle('active',t==='bending');
+  $('tabFraction').classList.toggle('active',t==='fraction');
+  focusField(t==='bending'?$('height'):$('fractionA'));
+  refresh();
 }
-
-function typeKey(key) {
-  if (!activeField) return;
-  activeField.value += key;
-  refreshCalculations();
-}
-
-function backspace() {
-  if (!activeField) return;
-  activeField.value = activeField.value.slice(0, -1);
-  refreshCalculations();
-}
-
-function clearField() {
-  if (!activeField) return;
-  activeField.value = "";
-  refreshCalculations();
-}
-
-function toggleSign() {
-  if (!activeField) return;
-
-  activeField.value = activeField.value.startsWith("-")
-    ? activeField.value.slice(1)
-    : "-" + activeField.value;
-
-  refreshCalculations();
-}
-
-function switchTab(tab) {
-  currentTab = tab;
-
-  $("bendingPage").classList.toggle(
-    "hidden", tab !== "bending"
-  );
-  $("fractionPage").classList.toggle(
-    "hidden", tab !== "fraction"
-  );
-
-  $("tabBending").classList.toggle(
-    "active", tab === "bending"
-  );
-  $("tabFraction").classList.toggle(
-    "active", tab === "fraction"
-  );
-
-  focusField(
-    tab === "bending" ? $("height") : $("fractionA")
-  );
-
-  refreshCalculations();
-}
-
-function setOperation(button, value) {
-  operation = value;
-
-  document.querySelectorAll(".op-row button")
-    .forEach(b => b.classList.remove("active"));
-
-  button.classList.add("active");
+function setOperation(button,op){
+  operation=op;
+  document.querySelectorAll('.operations button').forEach(b=>b.classList.remove('active'));
+  button.classList.add('active');
   calculateFraction();
 }
+function calculateFraction(){
+  const a=parseMeasure($('fractionA').value),b=parseMeasure($('fractionB').value);
+  let r=NaN;
+  if(Number.isFinite(a)&&Number.isFinite(b)){
+    if(operation==='+')r=a+b;
+    if(operation==='-')r=a-b;
+    if(operation==='*')r=a*b;
+    if(operation==='/'&&b!==0)r=a/b;
+  }
+  $('fractionResult').textContent=fmt(r);
+}
+function setSize(s){
+  size=s;
+  document.querySelectorAll('#sizes button').forEach(b=>b.classList.toggle('active',+b.dataset.size===size));
+  calculate();
+}
+function recommendAngle(h){
+  if(mode==='three')return h<=3?45:60;
+  if(mode==='four')return h<=3?22.5:30;
+  if(mode==='kick')return h<=2?22.5:30;
+  return h<=1.5?10:h<=3?22.5:h<=6?30:45;
+}
+function availableAngles(){
+  return mode==='three'?[45,60]:[10,22.5,30,45,60];
+}
+function drawAngleButtons(){
+  $('angles').innerHTML=availableAngles().map(a=>
+    '<button class="option '+(angle===a?'active':'')+
+    '" onclick="setAngle('+a+')">'+a+'°</button>'
+  ).join('');
+}
+function setAngle(a){
+  angle=a;
+  manualAngle=true;
+  calculate();
+}
+function setMode(m){
+  mode=m;
+  manualAngle=false;
+  document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+  $('bendTitle').textContent={
+    offset:'Up Offset • 2 Bends',
+    three:'3-Point Saddle',
+    four:'4-Point Saddle',
+    kick:'Kick Up • 1 Bend'
+  }[mode];
+  $('heightLabel').textContent={
+    offset:'Offset Height',
+    three:'Obstacle Height + Clearance',
+    four:'Obstacle Height + Clearance',
+    kick:'Kick Rise'
+  }[mode];
+  $('distanceLabel').textContent={
+    offset:'START → First Bend Target',
+    three:'START → Obstacle Center',
+    four:'START → Obstacle Center',
+    kick:'START → Kick Bend Target'
+  }[mode];
+  $('angleLabel').textContent=mode==='three'?'Center Bend Angle':'Bend Angle';
+  $('widthRow').classList.toggle('hidden',mode!=='four');
+  calculate();
+}
+function row(label,value,green=false){
+  return '<div class="result"><span>'+label+'</span><strong'+
+    (green?' class="green"':'')+'>'+value+'</strong></div>';
+}
+function section(title){return '<div class="subhead">'+title+'</div>'}
+function note(t,warning=false){
+  return '<p class="hint'+(warning?' warn':'')+'">'+t+'</p>';
+}
+function esc(t){
+  return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function drawDiagram(model){
+  const T=(x,y,t,color='#ffda51',sz=11,anchor='middle')=>
+    '<text x="'+x+'" y="'+y+'" text-anchor="'+anchor+
+    '" fill="'+color+'" font-size="'+sz+'" font-family="Arial,sans-serif">'+esc(t)+'</text>';
+  const line=(x1,y1,x2,y2,color='#ffda51',dash='')=>
+    '<path d="M'+x1+' '+y1+'L'+x2+' '+y2+
+    '" stroke="'+color+'" stroke-width="1.3"'+
+    (dash?' stroke-dasharray="'+dash+'"':'')+'/>';
+  const mark=(x,y,name,deg,up)=>
+    '<circle cx="'+x+'" cy="'+y+'" r="4" fill="#ffda51"/>'+
+    T(x,y+(up?-12:18),name)+T(x,y+(up?19:-14),deg,'#90e4af',10);
+  const bar=(x1,x2,y,label)=>
+    line(x1,y,x2,y)+line(x1,y-4,x1,y+4)+
+    line(x2,y-4,x2,y+4)+T((x1+x2)/2,y-7,label,'#ffda51',10);
+  let s='<rect x="0" y="0" width="390" height="270" fill="#102d48"/>';
+  s+=T(14,16,'SIDE VIEW • NOT TO SCALE','#a6c6df',10,'start');
+  let marks=[],centerX=0,startY=157;
 
-function calculateFraction() {
-  const a = parseMeasure($("fractionA").value);
-  const b = parseMeasure($("fractionB").value);
+  if(mode==='offset'){
+    s+='<path d="M12 157H113L226 78H375" fill="none" stroke="#43a6ff" stroke-width="5" stroke-linejoin="round"/>';
+    marks=[[113,157,'M1',angle+'°',false],[226,78,'M2',angle+'°',true]];
+    centerX=113;
+    s+=bar(113,226,44,'M1–M2');
+    s+=T(54,105,'H','#ffc67d',13);
+  }
+  if(mode==='three'){
+    s+='<path d="M12 157H95L195 75L295 157H377" fill="none" stroke="#43a6ff" stroke-width="5" stroke-linejoin="round"/>';
+    marks=[[95,157,'M1',(angle/2)+'°',false],[195,75,'M2',angle+'°',true],[295,157,'M3',(angle/2)+'°',false]];
+    centerX=195;
+    s+=bar(95,195,43,'M1–M2')+bar(195,295,43,'M2–M3');
+    s+=T(195,123,'OBSTACLE','#c1d6e8',10);
+  }
+  if(mode==='four'){
+    s+='<path d="M12 157H75L126 75H264L315 157H378" fill="none" stroke="#43a6ff" stroke-width="5" stroke-linejoin="round"/>';
+    s+='<rect x="177" y="101" width="36" height="56" fill="#73879b" opacity=".55"/>';
+    marks=[
+      [75,157,'M1',angle+'°',false],
+      [126,75,'M2',angle+'°',true],
+      [264,75,'M3',angle+'°',true],
+      [315,157,'M4',angle+'°',false]
+    ];
+    centerX=195;
+    s+=bar(75,126,43,'M1–M2')+
+       bar(129,261,43,'M2–M3')+
+       bar(264,315,43,'M3–M4');
+  }
+  if(mode==='kick'){
+    s+='<path d="M12 157H129L375 69" fill="none" stroke="#43a6ff" stroke-width="5" stroke-linejoin="round"/>';
+    marks=[[129,157,'M1',angle+'°',false]];
+    centerX=129;
+    s+=T(280,89,'KICK RISE','#ffc67d',12);
+  }
 
-  if (!Number.isFinite(a) || !Number.isFinite(b)) {
-    $("fractionResult").textContent = "—";
+  s+=line(12,startY,12,224,'#90e4af','3 4')+
+     T(12,239,'START 0"','#90e4af',11,'start');
+  marks.forEach(p=>s+=mark(...p));
+  s+=line(centerX,mode==='three'?80:mode==='four'?83:157,
+          centerX,216,'#ffda51','4 4');
+  s+=bar(12,centerX,214,
+    mode==='three'||mode==='four'
+      ?'START → OBSTACLE CENTER'
+      :'START → TARGET');
+  s+=T(195,257,'SHRINKAGE: '+model.shrinkText,'#90e4af',12);
+  $('bendDiagram').innerHTML=s;
+}
+function calculate(){
+  const h=parseMeasure($('height').value);
+  const d=parseMeasure($('distance').value);
+  const w=parseMeasure($('widthInput').value);
+
+  if(!manualAngle&&Number.isFinite(h)&&h>0){
+    angle=recommendAngle(h);
+  }
+  drawAngleButtons();
+
+  if(!Number.isFinite(h)||h<=0||!Number.isFinite(d)||d<0||
+     (mode==='four'&&(!Number.isFinite(w)||w<0))){
+    drawDiagram({shrinkText:'—'});
+    $('results').innerHTML=note('Enter valid positive height and distance values.',true);
     return;
   }
 
-  let result;
-
-  if (operation === "+") result = a + b;
-  if (operation === "-") result = a - b;
-  if (operation === "*") result = a * b;
-  if (operation === "/") result = b === 0 ? NaN : a / b;
-
-  $("fractionResult").textContent =
-    Number.isFinite(result)
-      ? fmt(result)
-      : "Cannot divide by zero";
-}
-
-function recommendAngle(h) {
-  if (h <= 1.5) return 10;
-  if (h <= 3) return 22.5;
-  if (h <= 6) return 30;
-  return 45;
-}
-
-function updateAngleButtons() {
-  document.querySelectorAll("#angles .choice")
-    .forEach(b => {
-      b.classList.toggle(
-        "active", Number(b.dataset.angle) === angle
-      );
-    });
-}
-
-function setAngle(value) {
-  angle = value;
-  manualAngle = true;
-  updateAngleButtons();
-  calculate();
-}
-
-function setMode(value) {
-  mode = value;
-  manualAngle = false;
-
-  document.querySelectorAll(".mode")
-    .forEach(b => b.classList.toggle(
-      "active", b.dataset.mode === value
-    ));
-
-  const names = {
-    offset: "Up Offset (2 Bends)",
-    three: "3-Point Saddle",
-    four: "4-Point Saddle",
-    kick: "Kick (1 Bend)"
+  const a=angle*Math.PI/180;
+  const spacing=h/Math.sin(a);
+  const shrinkFactors={
+    10:1/16,
+    22.5:3/16,
+    30:1/4,
+    45:3/8,
+    60:1/2
   };
 
-  $("bendTitle").textContent = names[value];
+  let output='',shrinkText='—';
 
-  $("heightLabel").textContent =
-    value === "offset" ? "Offset Height (H)" :
-    value === "kick" ? "Kick Rise (H)" :
-    "Obstacle Height (H)";
+  if(mode==='offset'){
+    const shrink=h*shrinkFactors[angle];
+    const m1=d+shrink;
+    const m2=m1+spacing;
+    shrinkText=fmt(shrink);
 
-  $("distanceLabel").textContent =
-    value === "offset"
-      ? "Distance from Box Connector"
-      : "Distance from Reference";
+    output+=section('Bend Angles')+
+      row('M1',angle+'°')+
+      row('M2',angle+'°')+
+      section('Between Bends')+
+      row('M1–M2',fmt(spacing))+
+      section('Tape Marks from START (0")')+
+      row('M1',fmt(m1))+
+      row('M2',fmt(m2))+
+      section('Shrinkage')+
+      row('Offset Shrinkage',fmt(shrink),true);
 
-  $("widthRow").classList.toggle(
-    "hidden", value !== "four"
-  );
-
-  calculate();
-}
-
-function line(x1, y1, x2, y2, color="#e5a72e", dash="") {
-  return `<line x1="${x1}" y1="${y1}"
-    x2="${x2}" y2="${y2}"
-    stroke="${color}" stroke-width="1.4"
-    ${dash ? 'stroke-dasharray="' + dash + '"' : ""}/>`;
-}
-
-function label(x, y, text, color="#e5a72e",
-               anchor="middle", fontSize=12) {
-  return `<text x="${x}" y="${y}"
-    text-anchor="${anchor}"
-    font-size="${fontSize}" font-weight="600"
-    fill="${color}">${text}</text>`;
-}
-
-function arrow(x1, y1, x2, y2) {
-  return `<path d="M${x1} ${y1} L${x2} ${y2}"
-    fill="none" stroke="#e5a72e"
-    stroke-width="1.5"
-    marker-start="url(#arr)"
-    marker-end="url(#arr)"/>`;
-}
-
-function drawDiagram() {
-  let svg = `<defs>
-    <marker id="arr" markerWidth="6"
-      markerHeight="6" refX="3" refY="3"
-      orient="auto-start-reverse">
-      <path d="M0 0 L6 3 L0 6"
-        fill="none" stroke="#e5a72e"/>
-    </marker>
-  </defs>`;
-
-  if (mode === "offset") {
-    svg += `<path d="M12 135 H115 L210 65 H296"
-      fill="none" stroke="#1685e5"
-      stroke-width="7" stroke-linejoin="round"
-      stroke-linecap="round"/>
-      <rect x="298" y="40" width="43"
-        height="53" rx="3" fill="#7b8b9d"
-        stroke="#b7c9d9" stroke-width="2"/>
-      <rect x="290" y="54" width="12"
-        height="22" fill="#91a1b1"/>
-      <path d="M10 147 H287"
-        stroke="#9bb2c9" opacity=".55"/>`;
-
-    svg += line(115,135,115,24,"#e5a72e","4 4");
-    svg += line(210,65,210,24,"#e5a72e","4 4");
-    svg += arrow(117,26,208,26);
-    svg += label(162,17,"M2");
-
-    svg += line(210,65,210,110);
-    svg += arrow(213,110,290,110);
-    svg += label(251,103,"M1");
-
-    svg += line(64,65,64,135,"#ff6565");
-    svg += line(58,65,70,65,"#ff6565");
-    svg += line(58,135,70,135,"#ff6565");
-    svg += label(53,103,"H","#ff6565","end",13);
-
-    svg += `<circle cx="115" cy="135" r="4"
-      fill="#ffd039"/>
-      <circle cx="210" cy="65" r="4"
-      fill="#ffd039"/>`;
-
-    svg += label(124,126,"α","#ffd039");
-    svg += label(219,57,"α","#ffd039");
-    svg += label(319,34,"BOX","#e5f3ff");
-    svg += label(172,174,"Surface","#b6cadd");
-
-  } else if (mode === "three") {
-    svg += `<path d="M12 135 H78 L160 53
-      L242 135 H338" fill="none"
-      stroke="#1685e5" stroke-width="7"
-      stroke-linejoin="round"/>`;
-
-    [78,160,242].forEach((x,i) => {
-      svg += line(
-        x, i === 1 ? 53 : 135,
-        x, 22, "#e5a72e", "4 4"
-      );
-    });
-
-    svg += arrow(80,25,158,25);
-    svg += arrow(162,25,240,25);
-    svg += label(120,17,"M2");
-    svg += label(200,17,"M3");
-    svg += label(80,151,"α");
-    svg += label(160,45,"2α");
-    svg += label(240,151,"α");
-
-  } else if (mode === "four") {
-    svg += `<path d="M12 135 H65 L117 65
-      H231 L283 135 H338"
-      fill="none" stroke="#1685e5"
-      stroke-width="7"
-      stroke-linejoin="round"/>`;
-
-    [65,117,231,283].forEach((x,i) => {
-      svg += line(
-        x, (i === 1 || i === 2) ? 65 : 135,
-        x, 23, "#e5a72e", "4 4"
-      );
-    });
-
-    svg += arrow(67,25,115,25);
-    svg += arrow(119,25,229,25);
-    svg += arrow(233,25,281,25);
-    svg += label(91,17,"M2");
-    svg += label(174,17,"M3");
-    svg += label(257,17,"M4");
-
-  } else {
-    // Kick: one bend, two straight sections.
-    svg += `<path d="M12 135 H105 L325 35"
-      fill="none" stroke="#1685e5"
-      stroke-width="7" stroke-linejoin="round"
-      stroke-linecap="round"/>
-      <circle cx="105" cy="135" r="4"
-        fill="#ffd039"/>
-      <path d="M145 135 A40 40 0 0 0 141 119"
-        stroke="#ffd039" stroke-width="1.5"
-        fill="none"/>`;
-
-    svg += label(155,126,"α","#ffd039");
-    svg += line(105,135,105,25,"#e5a72e","4 4");
-    svg += line(325,35,325,25,"#e5a72e","4 4");
-    svg += arrow(107,27,323,27);
-    svg += label(215,18,"Kick");
-    svg += label(105,157,"Bend","#ffd039");
+    output+=note('TARGET means intended position of the first bend after accounting for shrink. The arrow on the diagram labels the field reference, not the M1 tape mark.');
   }
 
-  $("bendDiagram").innerHTML = svg;
-}
+  if(mode==='three'){
+    const factor=angle===45?2.5:2;
+    const shrink=h*(angle===45?3/16:1/4);
+    const side=h*factor;
+    const m2=d+shrink;
+    const m1=m2-side;
+    const m3=m2+side;
+    shrinkText=fmt(shrink);
 
-function resultRow(name, value, green=false) {
-  return `<div class="result-row">
-    <span>${name}</span>
-    <strong class="${green ? "green" : ""}">
-      ${value}
-    </strong>
-  </div>`;
-}
+    output+=section('Bend Angles')+
+      row('M1 • Side',angle/2+'°')+
+      row('M2 • Center',angle+'°')+
+      row('M3 • Side',angle/2+'°')+
+      section('Between Bends')+
+      row('M1–M2',fmt(side))+
+      row('M2–M3',fmt(side))+
+      section('Tape Marks from START (0")')+
+      row('M1',m1>=0?fmt(m1):'—')+
+      row('M2',fmt(m2))+
+      row('M3',fmt(m3))+
+      section('Shrinkage')+
+      row('Total Saddle Shrinkage',fmt(shrink),true);
 
-function calculate() {
-  const h = parseMeasure($("height").value);
-  const d = parseMeasure($("distance").value);
-  const w = parseMeasure($("widthInput").value);
-
-  drawDiagram();
-
-  if (
-    !Number.isFinite(h) || h <= 0 ||
-    !Number.isFinite(d) || d < 0 ||
-    (mode === "four" &&
-      (!Number.isFinite(w) || w < 0))
-  ) {
-    $("results").innerHTML = "";
-    return;
+    if(m1<0){
+      output+=note('M1 falls before the pipe start. Increase the distance or adjust the design.',true);
+    }
+    output+=note('Obstacle-center distance is measured in the field from START. M2 is the calculated center mark after the shrink allowance.');
   }
 
-  if (!manualAngle) {
-    angle = recommendAngle(h);
-    updateAngleButtons();
+  if(mode==='four'){
+    const shrinkOne=h*shrinkFactors[angle];
+    const total=2*shrinkOne;
+    const crown=w;
+    const m1=d-crown/2-spacing+total;
+    const m2=m1+spacing;
+    const m3=m2+crown;
+    const m4=m3+spacing;
+    shrinkText=fmt(total)+' TOTAL';
+
+    output+=section('Bend Angles')+
+      row('M1 • Up',angle+'°')+
+      row('M2 • Level',angle+'°')+
+      row('M3 • Down',angle+'°')+
+      row('M4 • Level',angle+'°')+
+      section('Between Bends')+
+      row('M1–M2',fmt(spacing))+
+      row('M2–M3',fmt(crown))+
+      row('M3–M4',fmt(spacing))+
+      section('Tape Marks from START (0")')+
+      row('M1',m1>=0?fmt(m1):'—')+
+      row('M2',m1>=0?fmt(m2):'—')+
+      row('M3',m1>=0?fmt(m3):'—')+
+      row('M4',m1>=0?fmt(m4):'—')+
+      section('Shrinkage')+
+      row('First Offset',fmt(shrinkOne))+
+      row('Second Offset',fmt(shrinkOne))+
+      row('Total Shrinkage',fmt(total),true);
+
+    if(m1<0)output+=note('M1 falls before the pipe start.',true);
+    output+=note('Nominal two-offset layout only. Crown length is straight clearance between M2 and M3. Centering and shrink compensation must be confirmed with a test bend on your Klein shoe.',true);
   }
 
-  const radians = angle * Math.PI / 180;
-  const spacing = h / Math.sin(radians);
-  const shrink = h * Math.tan(radians / 2);
+  if(mode==='kick'){
+    const run=h/Math.tan(a);
+    const slope=h/Math.sin(a);
+    const lost=slope-run;
+    shrinkText=fmt(lost)+' GEOMETRIC';
 
-  let html = "";
+    output+=section('Bend Angle')+
+      row('M1 • Kick',angle+'°')+
+      section('Tape Mark from START (0")')+
+      row('M1',fmt(d))+
+      section('Calculated Geometry')+
+      row('Horizontal Run',fmt(run))+
+      row('Sloped Length',fmt(slope))+
+      section('Shrinkage')+
+      row('Sloped − Horizontal',fmt(lost),true);
 
-  if (mode === "offset") {
-    html += resultRow(
-      "Distance Between Bends (M2)",
-      fmt(spacing)
-    );
-    html += resultRow(
-      "Shrinkage",
-      fmt(shrink),
-      true
-    );
-
-  } else if (mode === "three") {
-    html += resultRow(
-      "Center Bend Angle",
-      (angle * 2) + "°"
-    );
-    html += resultRow(
-      "Side Spacing",
-      fmt(spacing)
-    );
-    html += resultRow(
-      "Outer-to-Outer",
-      fmt(2 * spacing)
-    );
-
-  } else if (mode === "four") {
-    html += resultRow(
-      "Ramp Length",
-      fmt(spacing)
-    );
-    html += resultRow(
-      "Top Clearance Length",
-      fmt(w)
-    );
-    html += resultRow(
-      "Total Shrinkage",
-      fmt(2 * shrink),
-      true
-    );
-
-  } else {
-    html += resultRow(
-      "Inclined Length",
-      fmt(spacing)
-    );
-    html += resultRow(
-      "Horizontal Projection",
-      fmt(h / Math.tan(radians))
-    );
+    output+=note('This geometric difference is not a Klein bender take-up or a verified kick cut-length correction. M1 is the field-selected kick location.',true);
   }
 
-  $("results").innerHTML = html;
+  output+=note('EMT: '+
+    (size===.5?'1/2':size===.75?'3/4':'1')+
+    '". Bend multiplier is nominal; actual bender reference, bend radius and orientation must be checked.');
+
+  $('results').innerHTML=output;
+  drawDiagram({shrinkText});
 }
 
-switchTab("bending");
-calculate();
+installKeyboards();
+switchTab('bending');
 calculateFraction();
 </script>
 </body>
