@@ -27,7 +27,7 @@ h1 span{color:var(--yellow)}
 small,.muted{color:var(--muted)}
 .tabs,.modes{display:grid;gap:6px;margin-bottom:12px}
 .tabs{grid-template-columns:1fr 1fr}
-.modes{grid-template-columns:repeat(4,1fr)}
+.modes{grid-template-columns:repeat(3,1fr)}
 button{border:1px solid #416b89;border-radius:9px;background:#193c59;color:#edf6ff;padding:12px 5px;font-weight:700}
 button.active{background:var(--blue);border-color:#59b6ff}
 .modes button.active{background:#173a58;border:2px solid var(--yellow);color:var(--yellow)}
@@ -92,7 +92,7 @@ input:focus{outline:3px solid var(--yellow)}
 <div class="content">
 <div class="field">
 <label>First Measurement</label>
-<div class="entry"><<input id="fracA" readonly placeholder="0" onclick="selectInput(this)">><span class="units">in</span></div>
+<div class="entry"><input id="fracA" readonly placeholder="0" onclick="selectInput(this)"><span class="units">in</span></div>
 </div>
 <div class="field">
 <label>Operation</label>
@@ -100,7 +100,7 @@ input:focus{outline:3px solid var(--yellow)}
 </div>
 <div class="field">
 <label>Second Measurement</label>
-<div class="entry"><<input id="fracB" readonly placeholder="0" onclick="selectInput(this)">><span class="units">in</span></div>
+<div class="entry"><input id="fracB" readonly placeholder="0" onclick="selectInput(this)"><span class="units">in</span></div>
 </div>
 <div class="fraction-result" id="fractionResult">0″</div>
 <div class="error" id="fractionError"></div>
@@ -120,16 +120,13 @@ input:focus{outline:3px solid var(--yellow)}
 <div class="choices" id="sizes"></div>
 </div>
 <div id="measurementFields"></div>
-<div class="field">
-<label>Bend Angle</label>
-<div class="choices" id="angles"></div>
-</div>
+<div class="field"><label>Bend Angle</label><div class="choices" id="angles"></div></div><div class="field"><label>Earlier bends in run</label><div class="choices" id="previous"></div></div>
 <div id="fieldError" class="error"></div>
 </div>
 </div>
 
 
-<div id="bendResults" hidden></div>
+<div class="panel"><h2>Marking Results</h2><div class="results" id="bendResults"></div></div>
 
 </section>
 
@@ -142,7 +139,7 @@ input:focus{outline:3px solid var(--yellow)}
 </div>
 </div>
 
-<p class="help">Measurements in inches • Rounded to nearest 1/8″ • Diagram not to scale</p>
+<p class="help">Marks measured from START connector • Nearest 1/8″ • Verify Klein bender shoe clearances • Illustrative diagram</p>
 </div>
   
 <script>
@@ -152,6 +149,8 @@ const state={
  mode:"offset",
  size:"1/2",
  angle:22.5,
+ autoAngle:true,
+ previous:0,
  operation:"+",
  activeInput:null,
  fields:{
@@ -163,18 +162,16 @@ const state={
 };
 
 const modes=[
- ["offset","Up Offset","M0 23 L18 23 L45 5 L70 5"],
+ ["offset","Offset","M0 25 L18 25 L45 5 L70 5"],
  ["three","3-Point","M0 25 L17 25 L35 5 L53 25 L70 25"],
- ["four","4-Point","M0 25 L14 25 L27 5 L45 5 L58 25 L70 25"],
- ["kick","Kick Up","M0 25 L22 25 L70 5"]
+ ["four","4-Point","M0 25 L14 25 L27 5 L45 5 L58 25 L70 25"]
 ];
-
 const definitions={
  offset:{
   title:"Up Offset • 2 Bends",
   inputs:[
    ["height","Offset Height (H)"],
-   ["distance","START → Box (horizontal distance)"]
+   ["distance","START → Target (horizontal)"]
   ]
  },
  three:{
@@ -192,13 +189,7 @@ const definitions={
    ["distance","START → Obstacle Center"]
   ]
  },
- kick:{
-  title:"Kick Up",
-  inputs:[
-   ["height","Kick Height (H)"],
-   ["distance","START → Kick Target"]
-  ]
- }
+
 };
 
 function parseInches(value){
@@ -246,6 +237,7 @@ function switchTab(tab){
  document.getElementById("tabFraction").classList.toggle("active",tab==="fraction");
  document.getElementById("tabBending").classList.toggle("active",tab==="bending");
  state.activeInput=null;
+ document.getElementById("diagram").closest(".panel").hidden=tab!=="bending";
 }
 
 function buildButtons(){
@@ -260,25 +252,22 @@ function buildButtons(){
  ).join("");
 
  document.getElementById("angles").innerHTML=
- [10,22.5,30,45,60].map(v=>
- `<button class="${state.angle===v?"active":""}" onclick="setAngle(${v})">${v}°</button>`
- ).join("");
-
+ (state.mode==="three"?'<button class="active">22.5° / 45°</button>':
+ '<button class="'+(state.autoAngle?'active':'')+'" onclick="setAuto()">AUTO</button>'+
+ [10,22.5,30,45,60].map(v=>'<button class="'+(!state.autoAngle&&state.angle===v?'active':'')+'" onclick="setAngle('+v+')">'+v+'°</button>').join(""));
+ document.getElementById("previous").innerHTML=[0,90,180,270].map(v=>
+ '<button class="'+(state.previous===v?'active':'')+'" onclick="setPrevious('+v+')">'+v+'°</button>').join("");
  document.getElementById("operations").innerHTML=
  ["+","−","×","÷"].map(v=>
  `<button class="${state.operation===v?"active":""}" onclick="setOperation('${v}')">${v}</button>`
  ).join("");
 }
 
-function setMode(mode){
- state.mode=mode;
- state.activeInput=null;
- // Suggested angle; user can change it.
- state.angle=mode==="three"?22.5:mode==="four"?30:22.5;
- render();
-}
+function setMode(mode){state.mode=mode;state.autoAngle=true;state.activeInput=null;render()}
 function setSize(v){state.size=v;render()}
-function setAngle(v){state.angle=v;render()}
+function setAngle(v){state.angle=v;state.autoAngle=false;render()}
+function setAuto(){state.autoAngle=true;render()}
+function setPrevious(v){state.previous=v;render()}
 function setOperation(v){state.operation=v;buildButtons();calculateFraction()}
 
 function renderFields(){
@@ -364,121 +353,66 @@ function sin(d){return Math.sin(d*Math.PI/180)}
 function cos(d){return Math.cos(d*Math.PI/180)}
 function tan(d){return Math.tan(d*Math.PI/180)}
 
-function compute(){
- const v=state.fields[state.mode];
- const h=parseInches(v.height);
- const d=parseInches(v.distance);
- const w=state.mode==="four"?parseInches(v.width):0;
- const a=state.angle;
- if(!Number.isFinite(h)||h<=0)throw Error("Enter a valid positive height.");
- if(!Number.isFinite(d)||d<0)throw Error("Enter a valid distance.");
- if(state.mode==="four"&&(!Number.isFinite(w)||w<0))
-  throw Error("Enter a valid obstacle width.");
- if(sin(a)<=0||tan(a)<=0)throw Error("Select a valid angle.");
-
- if(state.mode==="offset"){
-  // d is finished horizontal START-to-box distance.
-  // Straight conduit cut length is d + shrinkage.
-  const spacing=h/sin(a);
-  const horizontalRun=h/tan(a);
-  const shrink=spacing-horizontalRun;
-  // Position bends so the second bend ends at the box.
-  const m1=d-horizontalRun;
-  const m2=m1+spacing;
-  if(m1<0)throw Error("The offset cannot fit before the box. Reduce height or increase distance.");
-  return {h,d,w,a,spacing,shrink,m1,m2,
-   cut:d+shrink,mode:"offset"};
+function calculateLayout(mode,h,d,w,a){
+ const spacing=h/sin(a),run=h/tan(a),shrink=spacing-run;
+ if(mode==="offset"){
+  const m1=d-run,m2=m1+spacing;
+  if(m1<0)throw Error("Offset does not fit before target.");
+  return {mode,h,d,w,a,spacing,m1,m2,shrink};
  }
-
- if(state.mode==="three"){
-  // Symmetric 3-point saddle, center bend 2*a.
-  // Input center is measured horizontally from START.
-  const sideAngle=a;
-  if(sideAngle*2>=180)throw Error("Side angle too large.");
-  const run=h/tan(sideAngle);
-  const spacing=h/sin(sideAngle);
-  const m2=d+spacing-run;
-  const m1=m2-spacing;
-  const m3=m2+spacing;
-  const shrink=2*(spacing-run);
-  if(m1<0)throw Error("Not enough distance before obstacle. Reduce height or angle.");
-  return {h,d,w,a,spacing,shrink,m1,m2,m3,mode:"three"};
+ if(mode==="three"){
+  // Supplied 22.5 / 45 / 22.5 rule: side marks = 2.5 times height.
+  const spacing3=h*2.5,shrink3=h*3/16,m2=d+shrink3;
+  const m1=m2-spacing3,m3=m2+spacing3;
+  if(m1<0)throw Error("Not enough room before obstacle.");
+  return {mode,h,d,w,a:22.5,spacing:spacing3,m1,m2,m3,shrink:shrink3};
  }
-
- if(state.mode==="four"){
-  // Four bends, symmetrical rise and descent.
-  // Width is horizontal top clearance, not obstacle width
-  // plus any bend clearance allowance.
-  const run=h/tan(a);
-  const spacing=h/sin(a);
-  const left=d-w/2;
-  const right=d+w/2;
-  const m1=left-run;
-  const m2=m1+spacing;
-  const m3=m2+w;
-  const m4=m3+spacing;
-  const shrink=2*(spacing-run);
-  if(m1<0)throw Error("Not enough approach distance for this saddle.");
-  return {h,d,w,a,spacing,shrink,m1,m2,m3,m4,mode:"four"};
- }
-
- // Kick: single bend, height at target is h.
- // Distance is horizontal START-to-target.
- const kickRun=h/tan(a);
- const kickLength=h/sin(a);
- const m1=d-kickRun;
- if(m1<0)throw Error("Kick height is too large for the available distance.");
- return {h,d,w,a,m1,kickRun,kickLength,mode:"kick"};
+ // Both offset pairs; nominal obstacle edges define the flat span.
+ // Physical Klein shoe radius and clearance require onsite verification.
+ const left=d-w/2,m1=left-run,m2=m1+spacing,m3=m2+w,m4=m3+spacing;
+ if(m1<0)throw Error("Not enough approach for this saddle.");
+ return {mode,h,d,w,a,spacing,m1,m2,m3,m4,top:w,shrink:2*shrink};
 }
-
+function compute(){
+ const v=state.fields[state.mode],h=parseInches(v.height),d=parseInches(v.distance);
+ const w=state.mode==="four"?parseInches(v.width):0;
+ if(!Number.isFinite(h)||h<=0)throw Error("Enter positive obstacle height.");
+ if(!Number.isFinite(d)||d<0)throw Error("Enter valid distance from START.");
+ if(state.mode==="four"&&(!Number.isFinite(w)||w<=0))throw Error("Enter positive obstacle width.");
+ const angles=state.mode==="three"?[22.5]:!state.autoAngle?[state.angle]:
+ h<=1?[10,22.5,30,45,60]:h<=2?[22.5,30,45,60]:[30,22.5,45,60];
+ let err;
+ for(const a of angles){
+  try{
+   const result=calculateLayout(state.mode,h,d,w,a);
+   result.total=state.mode==="offset"?a*2:state.mode==="three"?90:a*4;
+   if(state.previous+result.total>360)throw Error("Total bend degrees exceed 360°. Add a pull point.");
+   result.previous=state.previous;result.size=state.size;return result;
+  }catch(e){err=e}
+ }
+ throw err||Error("No workable angle.");
+}
 function row(label,value,highlight=false){
  return `<div class="result ${highlight?"highlight":""}">
  <span>${esc(label)}</span><strong>${esc(value)}</strong></div>`;
 }
 
 function calculateBending(){
- const errors=document.getElementById("fieldError");
- const results=document.getElementById("bendResults");
+ const errors=document.getElementById("fieldError"),results=document.getElementById("bendResults");
  errors.textContent="";
  try{
-  const c=compute();
-  let html="";
-  if(c.mode==="offset"){
-   html+=row("M1 from START",fmt(c.m1));
-   html+=row("M2 from START",fmt(c.m2));
-   html+=row("M1–M2 • Bend spacing",fmt(c.spacing));
-   html+=row("Shrinkage",fmt(c.shrink));
-   html+=row("Required straight pipe length",fmt(c.cut),true);
-   html+=row("Horizontal START → Box",fmt(c.d));
-  }else if(c.mode==="three"){
-   html+=row("M1 from START",fmt(c.m1));
-   html+=row("M2 from START",fmt(c.m2));
-   html+=row("M3 from START",fmt(c.m3));
-   html+=row("Bend spacing",fmt(c.spacing));
-   html+=row("Shrinkage",fmt(c.shrink),true);
-   html+=row("Bend angles",`${c.a}° / ${2*c.a}° / ${c.a}°`);
-  }else if(c.mode==="four"){
-   ["m1","m2","m3","m4"].forEach(k=>
-    html+=row(k.toUpperCase()+" from START",fmt(c[k])));
-   html+=row("Slope bend spacing",fmt(c.spacing));
-   html+=row("Top straight spacing",fmt(c.w));
-   html+=row("Shrinkage",fmt(c.shrink),true);
-  }else{
-   html+=row("M1 from START",fmt(c.m1));
-   html+=row("Kick angled length",fmt(c.kickLength));
-   html+=row("Kick horizontal run",fmt(c.kickRun),true);
-  }
-  html+=row("Height (H)",fmt(c.h));
-  html+=row("Angle",c.a+"°");
-  results.innerHTML=html;
-  drawDiagram(c);
- }catch(e){
-  errors.textContent=e.message;
-  results.innerHTML="";
-  drawEmpty();
- }
+  const c=compute();let out="";
+  const keys=c.mode==="offset"?["m1","m2"]:c.mode==="three"?["m1","m2","m3"]:["m1","m2","m3","m4"];
+  for(const key of keys)out+=row(key.toUpperCase()+" from START",fmt(c[key]));
+  out+=row(c.mode==="three"?"M1–M2 / M2–M3":c.mode==="four"?"M1–M2 / M3–M4":"M1–M2",fmt(c.spacing));
+  if(c.mode==="four")out+=row("M2–M3 (nominal)",fmt(c.top));
+  out+=row("Bend angles",c.mode==="three"?"22.5° / 45° / 22.5°":
+    Array(c.mode==="offset"?2:4).fill(c.a+"°").join(" / "),true);
+  out+=row("Total bends in run",(c.total+c.previous)+"° / 360°");
+  if(c.mode==="four")out+=row("Field verification","Check top clearance and Klein bender radius.");
+  results.innerHTML=out;drawDiagram(c);
+ }catch(e){errors.textContent=e.message;results.innerHTML="";drawEmpty()}
 }
-
 function svgText(x,y,text,color="#eaf5ff",size=16,anchor="middle"){
  return `<text x="${x}" y="${y}" fill="${color}" font-size="${size}" text-anchor="${anchor}">${esc(text)}</text>`;
 }
@@ -531,9 +465,7 @@ function drawDiagram(c){
   s+=svgText(704,185,fmt(c.h),yellow,16);
   s+=svgText(x0,248,"START 0″",green,15,"start");
   s+=svgText(675,164,"BOX",green,15);
-  s+=svgText(380,350,
-    "CUT LENGTH: "+fmt(c.cut)+"   •   SHRINKAGE: "+fmt(c.shrink),
-    green,17);
+  s+=svgText(380,350,"M1: "+fmt(c.m1)+" • M2: "+fmt(c.m2),green,17);
  }else if(c.mode==="three"){
   const pts=[[45,225],[245,225],[380,100],[515,225],[715,225]];
   s+=`<polyline points="${pts.map(p=>p.join(",")).join(" ")}"
@@ -547,7 +479,7 @@ function drawDiagram(c){
   s+=svgText(515,260,c.a+"°",green);
   s+=line(45,300,380,300,yellow);
   s+=svgText(210,289,"START → CENTER: "+fmt(c.d),yellow,15);
-  s+=svgText(380,350,"SHRINKAGE: "+fmt(c.shrink),green,17);
+  s+=svgText(380,350,"CENTER: "+fmt(c.m2),green,17);
   s+=svgText(45,245,"START",green,14,"start");
  }else if(c.mode==="four"){
   const pts=[[40,230],[195,230],[305,100],[455,100],[565,230],[720,230]];
@@ -555,7 +487,7 @@ function drawDiagram(c){
    fill="none" stroke="#43a9ff" stroke-width="9"/>`;
   [[195,230,"M1"],[305,100,"M2"],[455,100,"M3"],[565,230,"M4"]]
    .forEach(p=>s+=marker(...p));
-  s+=dimension(305,65,455,65,"TOP: "+fmt(c.w),53);
+  s+=dimension(305,65,455,65,"TOP: "+fmt(c.top),53);
   s+=dimension(195,285,565,285,
     "SLOPE SPACING: "+fmt(c.spacing),273);
   
@@ -564,7 +496,7 @@ function drawDiagram(c){
   s+=line(380,110,380,315,yellow,1.5,"5 5");
   s+=dimension(40,315,380,315,
     "START → OBSTACLE CENTER: "+fmt(c.d),305);
-s+=svgText(380,335,"SHRINKAGE: "+fmt(c.shrink),green,17);
+s+=svgText(380,335,"MARKS M1–M4 FROM START",green,17);
   s+=svgText(40,253,"START",green,14,"start");
   s+=svgText(380,365,"H: "+fmt(c.h)+"   •   "+c.a+"° EACH",yellow,15);
  }else{
