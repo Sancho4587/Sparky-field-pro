@@ -102,6 +102,7 @@ input:focus{outline:3px solid var(--yellow)}
 <label>Second Measurement</label>
 <div class="entry"><input id="fracB" readonly placeholder="0" onclick="selectInput(this)"><span class="units">in</span></div>
 </div>
+<div class="keyboard" id="keyboard"></div>
 <div class="fraction-result" id="fractionResult">0″</div>
 <div class="error" id="fractionError"></div>
 </div>
@@ -125,8 +126,6 @@ input:focus{outline:3px solid var(--yellow)}
 </div>
 </div>
 
-
-<div class="keyboard" id="keyboard"></div>
 
 <div class="panel"><h2>Marking Results</h2><div class="results" id="bendResults"></div></div>
 
@@ -238,6 +237,7 @@ function switchTab(tab){
  document.getElementById("tabBending").classList.toggle("active",tab==="bending");
  state.activeInput=null;
  document.getElementById("diagram").closest(".panel").hidden=tab!=="bending";
+ document.getElementById("keyboard").hidden=false;
 }
 
 function buildButtons(){
