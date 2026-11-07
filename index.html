@@ -123,6 +123,7 @@ input:focus{outline:3px solid var(--yellow)}
 <div id="measurementFields"></div>
 <div class="field"><label>Bend Angle</label><div class="choices" id="angles"></div></div><div class="field"><label>Earlier bends in run</label><div class="choices" id="previous"></div></div>
 <div id="fieldError" class="error"></div>
+<div class="keyboard" id="bendingKeyboard"></div>
 </div>
 </div>
 
@@ -326,6 +327,7 @@ const keys=[
   return `<button class="${key.includes("/")?"fraction":""} ${["SPACE","CLEAR"].includes(key)?"special":""}"
   onclick="keyboardPress('${key}')">${display}</button>`;
  }).join("");
+ document.getElementById("bendingKeyboard").innerHTML=document.getElementById("keyboard").innerHTML;
 }
 
 function calculateFraction(){
